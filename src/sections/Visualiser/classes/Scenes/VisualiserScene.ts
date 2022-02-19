@@ -4,6 +4,8 @@ import { MouseMove } from 'utils/singletons/MouseMove';
 
 import { InteractiveScene } from './InteractiveScene';
 import { Floor3D } from '../Components/Floor3D';
+import { ScreenFrame3D } from '../Components/ScreenFrame3D';
+import { ScreenComputed3D } from '../Components/ScreenComputed3D';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
@@ -12,11 +14,15 @@ interface Constructor {
 
 export class VisualiserScene extends InteractiveScene {
   _floor3D = new Floor3D();
+  _screenFrame3D = new ScreenFrame3D();
+  _screenComputed3D = new ScreenComputed3D();
 
   constructor({ camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
 
     this.add(this._floor3D);
+    this.add(this._screenFrame3D);
+    this.add(this._screenComputed3D);
   }
 
   animateIn() {
@@ -26,5 +32,11 @@ export class VisualiserScene extends InteractiveScene {
   destroy() {
     this._floor3D.destroy();
     this.remove(this._floor3D);
+
+    this._screenFrame3D.destroy();
+    this.remove(this._screenFrame3D);
+
+    this._screenComputed3D.destroy();
+    this.remove(this._screenComputed3D);
   }
 }

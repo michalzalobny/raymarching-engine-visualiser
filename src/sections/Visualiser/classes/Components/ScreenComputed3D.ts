@@ -4,18 +4,20 @@ import vertexShader from '../shaders/floor/vertex.glsl';
 import fragmentShader from '../shaders/floor/fragment.glsl';
 import { InteractiveObject3D } from './InteractiveObject3D';
 
-export class Floor3D extends InteractiveObject3D {
+export class ScreenComputed3D extends InteractiveObject3D {
+  static width = 5;
+
   _mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial> | null = null;
   _geometry: THREE.PlaneGeometry | null = null;
   _material: THREE.ShaderMaterial | null = null;
 
   constructor() {
     super();
-    this._drawFloor();
+    this._drawScreenFrame();
   }
 
-  _drawFloor() {
-    this._geometry = new THREE.PlaneBufferGeometry(10, 10);
+  _drawScreenFrame() {
+    this._geometry = new THREE.PlaneBufferGeometry(ScreenComputed3D.width, ScreenComputed3D.width);
     this._material = new THREE.ShaderMaterial({
       side: THREE.DoubleSide,
       vertexShader,
@@ -30,8 +32,8 @@ export class Floor3D extends InteractiveObject3D {
 
     this._mesh = new THREE.Mesh(this._geometry, this._material);
 
-    this._mesh.rotation.x = -Math.PI * 0.5;
-    this._mesh.position.y = 0;
+    this._mesh.position.y = ScreenComputed3D.width * 0.5;
+    this._mesh.position.x = -ScreenComputed3D.width * 0.5;
 
     this.add(this._mesh);
   }
