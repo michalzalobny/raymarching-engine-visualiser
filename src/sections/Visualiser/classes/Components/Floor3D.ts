@@ -22,8 +22,8 @@ export class Floor3D extends InteractiveObject3D {
       side: THREE.DoubleSide,
       vertexShader,
       fragmentShader,
-      depthWrite: false,
-      depthTest: false,
+      depthWrite: true,
+      depthTest: true,
       uniforms: {
         uTime: { value: 0 },
         uRandom: { value: Math.random() },

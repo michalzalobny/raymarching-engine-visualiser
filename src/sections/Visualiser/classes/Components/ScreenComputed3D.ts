@@ -24,19 +24,16 @@ export class ScreenComputed3D extends InteractiveObject3D {
       side: THREE.DoubleSide,
       vertexShader,
       fragmentShader,
-      depthWrite: false,
-      depthTest: false,
+      depthWrite: true,
+      depthTest: true,
       uniforms: {
         uTime: { value: 0 },
         uRandom: { value: Math.random() },
       },
     });
-
     this._mesh = new THREE.Mesh(this._geometry, this._material);
-
     this._mesh.position.y = ScreenComputed3D.width * 0.5;
     this._mesh.position.x = -ScreenComputed3D.width * 0.5;
-
     this.add(this._mesh);
   }
 
