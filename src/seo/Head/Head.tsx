@@ -13,7 +13,7 @@ export const Head = (props: HeadProps) => {
   const {
     ogImage = 'https://res.cloudinary.com/dpv0ukspz/image/upload/v1644792165/og-100_eql6tx.jpg',
     title = 'Raymarching engine visualiser Sandbox',
-    description = 'Interactive raymarching 3D-engine visualiser🌠. Computed in fragment shader on the 2D Plane using THREE.JS and GLSL.',
+    description = 'Interactive raymarching 3D-engine visualiser 🌠. Computed in a fragment shader on the 2D Plane using THREE.JS and GLSL.',
   } = props;
 
   return (
