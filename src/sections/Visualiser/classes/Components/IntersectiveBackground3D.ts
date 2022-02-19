@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import { UpdateInfo } from 'utils/sharedTypes';
+
 import { InteractiveObject3D } from './InteractiveObject3D';
 
 export class IntersectiveBackground3D extends InteractiveObject3D {
@@ -44,8 +46,8 @@ export class IntersectiveBackground3D extends InteractiveObject3D {
     }
   }
 
-  update() {
-    super.update();
+  update(updateInfo: UpdateInfo) {
+    super.update(updateInfo);
   }
 
   destroy() {
