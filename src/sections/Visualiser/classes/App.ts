@@ -70,8 +70,6 @@ export class App extends THREE.EventDispatcher {
 
     this._camera.position.z = 10;
     this._camera.position.y = 10;
-    // this._camera.fov =
-    //   2 * Math.atan(rendererBounds.height / 2 / this._camera.position.z) * (180 / Math.PI);
 
     this._renderer.setSize(rendererBounds.width, rendererBounds.height);
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
