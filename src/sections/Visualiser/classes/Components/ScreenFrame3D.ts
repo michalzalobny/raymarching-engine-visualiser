@@ -33,7 +33,6 @@ export class ScreenFrame3D extends InteractiveObject3D {
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
     this._mesh.position.y = ScreenFrame3D.width * 0.5;
-    this._mesh.position.x = ScreenFrame3D.width * 0.5;
     this.add(this._mesh);
   }
 

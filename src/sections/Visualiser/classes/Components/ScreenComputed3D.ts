@@ -33,7 +33,8 @@ export class ScreenComputed3D extends InteractiveObject3D {
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
     this._mesh.position.y = ScreenComputed3D.width * 0.5;
-    this._mesh.position.x = -ScreenComputed3D.width * 0.5;
+    this._mesh.position.z = -8;
+    this._mesh.position.x = -8 + ScreenComputed3D.width * 0.5;
     this.add(this._mesh);
   }
 
