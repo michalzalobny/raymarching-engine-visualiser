@@ -35,8 +35,11 @@
     "eslint": "7.32.0",
     "eslint-config-next": "12.0.10",
     "eslint-plugin-react-hooks": "4.3.0",
+    "file-loader": "^6.2.0",
+    "glslify-loader": "^2.0.0",
     "gts": "3.1.0",
     "prettier": "2.5.1",
+    "raw-loader": "^4.0.2",
     "sass": "1.49.7",
     "typescript": "4.5.5"
   }

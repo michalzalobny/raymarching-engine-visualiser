@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { MouseMove } from 'utils/singletons/MouseMove';
 
 import { InteractiveScene } from './InteractiveScene';
+import { Floor3D } from '../Components/Floor3D';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
@@ -10,14 +11,20 @@ interface Constructor {
 }
 
 export class VisualiserScene extends InteractiveScene {
+  _floor3D = new Floor3D();
+
   constructor({ camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
+
+    this.add(this._floor3D);
   }
 
   animateIn() {
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    this.add(cube);
+    console.log('animated in');
+  }
+
+  destroy() {
+    this._floor3D.destroy();
+    this.remove(this._floor3D);
   }
 }
