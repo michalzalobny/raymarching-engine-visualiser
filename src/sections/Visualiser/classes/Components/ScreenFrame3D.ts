@@ -2,8 +2,8 @@ import * as THREE from 'three';
 
 import { UpdateInfo } from 'utils/sharedTypes';
 
-import vertexShader from '../shaders/floor/vertex.glsl';
-import fragmentShader from '../shaders/floor/fragment.glsl';
+import vertexShader from '../shaders/screenFrame/vertex.glsl';
+import fragmentShader from '../shaders/screenFrame/fragment.glsl';
 import { InteractiveObject3D } from './InteractiveObject3D';
 
 export class ScreenFrame3D extends InteractiveObject3D {
