@@ -1,9 +1,3 @@
-export interface Size {
-  clientRect: DomRectSSR;
-  offsetTop: number;
-  isReady: boolean;
-}
-
 export interface DomRectSSR {
   bottom: number;
   height: number;
@@ -21,9 +15,39 @@ export interface UpdateInfo {
   time: number;
 }
 
+export interface MediaItem {
+  item: THREE.Texture | THREE.Group;
+  naturalWidth: number;
+  naturalHeight: number;
+}
+
+export type MediaItems = Record<string, MediaItem>;
+
 export interface AnimateProps {
   duration?: number;
   delay?: number;
   destination: number;
   easing?: (amount: number) => number;
 }
+
+export interface Bounds {
+  width: number;
+  height: number;
+}
+
+interface Coords {
+  x: number;
+  y: number;
+}
+
+export interface Mouse {
+  current: Coords;
+  target: Coords;
+}
+
+interface PreloadItem {
+  src: string;
+  type: string;
+}
+
+export type PreloadItems = (PreloadItem | null)[];

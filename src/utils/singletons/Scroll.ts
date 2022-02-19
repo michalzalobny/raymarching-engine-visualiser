@@ -1,8 +1,8 @@
 import { EventDispatcher } from 'three';
 import normalizeWheel from 'normalize-wheel';
 
-import { sharedValues } from 'utils/sharedValues';
 import { UpdateInfo } from 'utils/sharedTypes';
+import { sharedValues } from 'utils/sharedValues';
 
 interface ApplyScrollXY {
   x: number;
@@ -15,10 +15,29 @@ export class Scroll extends EventDispatcher {
   _useMomentum = false;
   _touchMomentum = { x: 0, y: 0 };
   _isTouching = false;
-  _targetElement: HTMLElement | Window | null = null;
+
+  static _instance: Scroll;
+  static _canCreate = false;
+  static getInstance() {
+    if (!Scroll._instance) {
+      Scroll._canCreate = true;
+      Scroll._instance = new Scroll();
+      Scroll._canCreate = false;
+    }
+
+    return Scroll._instance;
+  }
 
   constructor() {
     super();
+
+    if (Scroll._instance || !Scroll._canCreate) {
+      throw new Error('Use Scroll.getInstance()');
+    }
+
+    this._addEvents();
+
+    Scroll._instance = this;
   }
 
   _applyScrollXY({ x, y, type }: ApplyScrollXY) {
@@ -93,37 +112,19 @@ export class Scroll extends EventDispatcher {
   };
 
   _addEvents() {
-    if (!this._targetElement) return;
-    this._targetElement = this._targetElement as Window; //casting to Window fixes typescript issue
-    this._targetElement.addEventListener('wheel', this._onWheel, { passive: false });
+    window.addEventListener('wheel', this._onWheel);
 
-    this._targetElement.addEventListener('mousedown', this._onTouchDown);
+    window.addEventListener('mousedown', this._onTouchDown);
     window.addEventListener('mousemove', this._onTouchMove);
     window.addEventListener('mouseup', this._onTouchUp);
 
-    this._targetElement.addEventListener('touchstart', this._onTouchDown, { passive: true });
+    window.addEventListener('touchstart', this._onTouchDown);
     window.addEventListener('touchmove', this._onTouchMove, { passive: true });
     window.addEventListener('touchend', this._onTouchUp);
 
     window.addEventListener('resize', this._onResize);
 
     this._onResize();
-  }
-
-  _removeEvents() {
-    if (!this._targetElement) return;
-    this._targetElement = this._targetElement as Window; //casting to Window fixes typescript issue
-    this._targetElement.removeEventListener('wheel', this._onWheel);
-
-    this._targetElement.removeEventListener('mousedown', this._onTouchDown);
-    window.removeEventListener('mousemove', this._onTouchMove);
-    window.removeEventListener('mouseup', this._onTouchUp);
-
-    this._targetElement.removeEventListener('touchstart', this._onTouchDown);
-    window.removeEventListener('touchmove', this._onTouchMove);
-    window.removeEventListener('touchend', this._onTouchUp);
-
-    window.removeEventListener('resize', this._onResize);
   }
 
   update(updateInfo: UpdateInfo) {
@@ -151,15 +152,5 @@ export class Scroll extends EventDispatcher {
         type: 'touchmove',
       });
     }
-  }
-
-  setTargetElement(el: HTMLElement | Window) {
-    if (this._targetElement) return;
-    this._targetElement = el;
-    this._addEvents();
-  }
-
-  destroy() {
-    this._removeEvents();
   }
 }
