@@ -12,15 +12,13 @@ export class RaySphere3D extends RayObject3D {
   constructor() {
     super();
     this._drawSphere();
+    this.setElPosition(new THREE.Vector3(0, 2, -6));
   }
 
   _drawSphere() {
     this._geometry = new THREE.SphereBufferGeometry(2, 32, 32);
     this._material = new THREE.MeshStandardMaterial({ color: '#ffffff' });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
-    this._mesh.position.y = 2;
-    // this._mesh.position.x = 10;
-    this._mesh.position.z = -6;
     this.add(this._mesh);
   }
 
@@ -37,5 +35,6 @@ export class RaySphere3D extends RayObject3D {
 
   setElPosition(newPos: THREE.Vector3) {
     super.setElPosition(newPos);
+    this._mesh?.position.set(this.elPosition.x, this.elPosition.y, this.elPosition.z);
   }
 }

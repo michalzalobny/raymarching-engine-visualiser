@@ -10,11 +10,11 @@ export class RayLight3D extends RayObject3D {
   constructor() {
     super();
     this._addLight();
+    this.setElPosition(new THREE.Vector3(0, 10, 0));
   }
 
   _addLight() {
     this._light = new THREE.PointLight(0xffffff, 1, 100);
-    this._light.position.set(0, 10, 0);
     this.add(this._light);
   }
 
@@ -29,5 +29,6 @@ export class RayLight3D extends RayObject3D {
 
   setElPosition(newPos: THREE.Vector3) {
     super.setElPosition(newPos);
+    this._light?.position.set(this.elPosition.x, this.elPosition.y, this.elPosition.z);
   }
 }
