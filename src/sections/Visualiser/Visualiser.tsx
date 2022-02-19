@@ -5,13 +5,13 @@ import { appState } from './Visualiser.state';
 import { App } from './classes/App';
 
 export const Visualiser = () => {
-  const rendererWrapperEl = useRef<HTMLDivElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const rendererEl = useRef<HTMLDivElement>(null);
+  const [shouldUncover, setShouldUncover] = useState(false);
 
   useEffect(() => {
-    if (!rendererWrapperEl.current) return;
+    if (!rendererEl.current) return;
 
-    appState.app = new App({ rendererWrapperEl: rendererWrapperEl.current, setIsLoaded });
+    appState.app = new App({ rendererEl: rendererEl.current, setShouldUncover });
 
     return () => {
       if (appState.app) {
@@ -24,8 +24,8 @@ export const Visualiser = () => {
   return (
     <>
       <S.Wrapper>
-        <S.ReadyWrapper isLoaded={isLoaded} />
-        <S.CanvasWrapper ref={rendererWrapperEl} />
+        <S.ReadyWrapper isLoaded={shouldUncover} />
+        <S.CanvasWrapper ref={rendererEl} />
       </S.Wrapper>
     </>
   );

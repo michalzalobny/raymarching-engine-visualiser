@@ -112,13 +112,13 @@ export class Scroll extends EventDispatcher {
   };
 
   _addEvents() {
-    window.addEventListener('wheel', this._onWheel);
+    window.addEventListener('wheel', this._onWheel, { passive: false });
 
     window.addEventListener('mousedown', this._onTouchDown);
     window.addEventListener('mousemove', this._onTouchMove);
     window.addEventListener('mouseup', this._onTouchUp);
 
-    window.addEventListener('touchstart', this._onTouchDown);
+    window.addEventListener('touchstart', this._onTouchDown, { passive: true });
     window.addEventListener('touchmove', this._onTouchMove, { passive: true });
     window.addEventListener('touchend', this._onTouchUp);
 

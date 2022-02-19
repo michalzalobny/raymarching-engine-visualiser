@@ -1,6 +1,7 @@
 import TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
 import debounce from 'lodash.debounce';
+import { OrbitControls } from 'three-stdlib';
 
 import { MouseMove } from 'utils/singletons/MouseMove';
 import { Scroll } from 'utils/singletons/Scroll';
@@ -10,12 +11,12 @@ import { Preloader } from './utility/Preloader';
 import { VisualiserScene } from './Scenes/VisualiserScene';
 
 interface Constructor {
-  rendererWrapperEl: HTMLDivElement;
-  setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  rendererEl: HTMLDivElement;
+  setShouldUncover: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export class App extends THREE.EventDispatcher {
-  _rendererWrapperEl: HTMLDivElement;
+  _rendererEl: HTMLDivElement;
   _rafId: number | null = null;
   _isResumed = true;
   _lastFrameTime: number | null = null;
@@ -25,17 +26,18 @@ export class App extends THREE.EventDispatcher {
   _mouseMove = MouseMove.getInstance();
   _scroll = Scroll.getInstance();
   _preloader = new Preloader();
+  _controls: OrbitControls;
   _visualiserScene: VisualiserScene;
-  _setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  _setShouldUncoverReact: React.Dispatch<React.SetStateAction<boolean>>;
 
-  constructor({ setIsLoaded, rendererWrapperEl }: Constructor) {
+  constructor({ setShouldUncover, rendererEl }: Constructor) {
     super();
-    this._rendererWrapperEl = rendererWrapperEl;
+    this._rendererEl = rendererEl;
     this._canvas = document.createElement('canvas');
-    this._rendererWrapperEl.appendChild(this._canvas);
+    this._rendererEl.appendChild(this._canvas);
     this._camera = new THREE.PerspectiveCamera();
 
-    this._setIsLoaded = setIsLoaded;
+    this._setShouldUncoverReact = setShouldUncover;
 
     this._renderer = new THREE.WebGLRenderer({
       canvas: this._canvas,
@@ -52,20 +54,23 @@ export class App extends THREE.EventDispatcher {
     this._addListeners();
     this._resumeAppFrame();
 
+    this._controls = new OrbitControls(this._camera, this._rendererEl);
+    this._controls.enableDamping = true;
+    this._controls.update();
+
     this._preloader.setPreloadItems([]);
   }
 
   _onResizeDebounced = debounce(() => this._onResize(), 300);
 
   _onResize() {
-    const rendererBounds = this._rendererWrapperEl.getBoundingClientRect();
+    const rendererBounds = this._rendererEl.getBoundingClientRect();
     const aspectRatio = rendererBounds.width / rendererBounds.height;
     this._camera.aspect = aspectRatio;
 
-    //Set to match pixel size of the elements in three with pixel size of DOM elements
-    this._camera.position.z = 1000;
-    this._camera.fov =
-      2 * Math.atan(rendererBounds.height / 2 / this._camera.position.z) * (180 / Math.PI);
+    this._camera.position.z = 10;
+    // this._camera.fov =
+    //   2 * Math.atan(rendererBounds.height / 2 / this._camera.position.z) * (180 / Math.PI);
 
     this._renderer.setSize(rendererBounds.width, rendererBounds.height);
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -83,7 +88,7 @@ export class App extends THREE.EventDispatcher {
   };
 
   _onAssetsLoaded = (e: THREE.Event) => {
-    this._setIsLoaded(true);
+    this._setShouldUncoverReact(true);
     this._visualiserScene.animateIn();
   };
 
@@ -129,6 +134,7 @@ export class App extends THREE.EventDispatcher {
     this._mouseMove.update();
     this._scroll.update({ delta, slowDownFactor, time });
     this._visualiserScene.update({ delta, slowDownFactor, time });
+    this._controls.update();
 
     this._renderer.render(this._visualiserScene, this._camera);
   };
