@@ -26,4 +26,8 @@ export class RayLight3D extends RayObject3D {
     super.destroy();
     if (this._light) this.remove(this._light);
   }
+
+  setElPosition(newPos: THREE.Vector3) {
+    super.setElPosition(newPos);
+  }
 }

@@ -34,4 +34,8 @@ export class RaySphere3D extends RayObject3D {
     if (this._mesh) this.remove(this._mesh);
     this._geometry?.dispose();
   }
+
+  setElPosition(newPos: THREE.Vector3) {
+    super.setElPosition(newPos);
+  }
 }
