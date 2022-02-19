@@ -19,11 +19,10 @@ export class Floor3D extends InteractiveObject3D {
   _drawFloor() {
     this._geometry = new THREE.PlaneBufferGeometry(Floor3D.width, Floor3D.width);
     this._material = new THREE.MeshStandardMaterial({ color: '#ffffff' });
-
     this._mesh = new THREE.Mesh(this._geometry, this._material);
-
     this._mesh.rotation.x = -Math.PI * 0.5;
     this._mesh.position.y = 0;
+    this._mesh.receiveShadow = true;
 
     this.add(this._mesh);
   }

@@ -15,6 +15,9 @@ export class RayLight3D extends RayObject3D {
 
   _addLight() {
     this._light = new THREE.PointLight(0xffffff, 1, 100);
+    this._light.castShadow = true;
+    this._light.shadow.mapSize.width = 2048;
+    this._light.shadow.mapSize.height = 2048;
     this.add(this._light);
   }
 
