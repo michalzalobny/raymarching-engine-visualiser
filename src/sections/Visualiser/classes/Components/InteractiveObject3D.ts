@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import { UpdateInfo } from 'utils/sharedTypes';
+
 export type ColliderName = 'sceneItem';
 
 export class InteractiveObject3D extends THREE.Object3D {
@@ -28,8 +30,8 @@ export class InteractiveObject3D extends THREE.Object3D {
     this.dispatchEvent({ type: 'click' });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  update() {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  update(updateInfo: UpdateInfo) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   destroy() {}

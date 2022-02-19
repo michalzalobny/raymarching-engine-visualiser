@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import { MouseMove } from 'utils/singletons/MouseMove';
+import { UpdateInfo } from 'utils/sharedTypes';
 
 import { InteractiveScene } from './InteractiveScene';
 import { Floor3D } from '../Components/Floor3D';
@@ -27,6 +28,14 @@ export class VisualiserScene extends InteractiveScene {
 
   animateIn() {
     console.log('animated in');
+  }
+
+  update(updateInfo: UpdateInfo) {
+    super.update(updateInfo);
+
+    this._floor3D.update(updateInfo);
+    this._screenFrame3D.update(updateInfo);
+    this._screenComputed3D.update(updateInfo);
   }
 
   destroy() {

@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 
-import vertexShader from '../shaders/floor/vertex.glsl';
-import fragmentShader from '../shaders/floor/fragment.glsl';
+import { UpdateInfo } from 'utils/sharedTypes';
+
+import vertexShader from '../shaders/screenComputed/vertex.glsl';
+import fragmentShader from '../shaders/screenComputed/fragment.glsl';
 import { InteractiveObject3D } from './InteractiveObject3D';
 
 export class ScreenComputed3D extends InteractiveObject3D {
@@ -38,8 +40,9 @@ export class ScreenComputed3D extends InteractiveObject3D {
     this.add(this._mesh);
   }
 
-  update() {
-    super.update();
+  update(updateInfo: UpdateInfo) {
+    super.update(updateInfo);
+    if (this._mesh) this._mesh.material.uniforms.uTime.value = updateInfo.time * 0.001;
   }
 
   destroy() {

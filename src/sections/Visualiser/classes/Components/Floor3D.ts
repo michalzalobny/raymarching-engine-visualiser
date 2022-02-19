@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+import { UpdateInfo } from 'utils/sharedTypes';
+
 import vertexShader from '../shaders/floor/vertex.glsl';
 import fragmentShader from '../shaders/floor/fragment.glsl';
 import { InteractiveObject3D } from './InteractiveObject3D';
@@ -36,8 +38,8 @@ export class Floor3D extends InteractiveObject3D {
     this.add(this._mesh);
   }
 
-  update() {
-    super.update();
+  update(updateInfo: UpdateInfo) {
+    super.update(updateInfo);
   }
 
   destroy() {
