@@ -16,7 +16,7 @@ export class RaySphere3D extends RayObject3D {
   }
 
   _drawSphere() {
-    this._geometry = new THREE.SphereBufferGeometry(2, 32, 32);
+    this._geometry = new THREE.SphereBufferGeometry(1, 32, 32);
     this._material = new THREE.MeshStandardMaterial({ color: '#ffffff' });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
     this.add(this._mesh);
