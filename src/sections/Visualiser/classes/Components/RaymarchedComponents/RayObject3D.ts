@@ -19,8 +19,6 @@ export class RayObject3D extends InteractiveObject3D {
   destroy() {
     super.destroy();
     this._material?.dispose();
-    if (this._mesh) {
-      this.remove(this._mesh);
-    }
+    if (this._mesh) this.remove(this._mesh);
   }
 }

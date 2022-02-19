@@ -14,7 +14,16 @@ export default function IndexPage() {
         <Visualiser />
       </S.Wrapper>
       <Link href="/test" passHref>
-        <a style={{ opacity: 0, position: 'fixed', bottom: 0, left: 0, fontSize: '14px' }}>
+        <a
+          style={{
+            zIndex: 100,
+            opacity: 0,
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            fontSize: '14px',
+          }}
+        >
           Go to test
         </a>
       </Link>

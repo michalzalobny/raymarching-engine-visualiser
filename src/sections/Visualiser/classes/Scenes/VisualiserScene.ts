@@ -7,6 +7,7 @@ import { InteractiveScene } from './InteractiveScene';
 import { Floor3D } from '../Components/Floor3D';
 import { ScreenFrame3D } from '../Components/ScreenFrame3D';
 import { ScreenComputed3D } from '../Components/ScreenComputed3D';
+import { RaySphere3D } from '../Components/RaymarchedComponents/RaySphere3D';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
@@ -17,6 +18,7 @@ export class VisualiserScene extends InteractiveScene {
   _floor3D = new Floor3D();
   _screenFrame3D = new ScreenFrame3D();
   _screenComputed3D = new ScreenComputed3D();
+  _raySphere3D1 = new RaySphere3D();
 
   constructor({ camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
@@ -24,6 +26,7 @@ export class VisualiserScene extends InteractiveScene {
     this.add(this._floor3D);
     this.add(this._screenFrame3D);
     this.add(this._screenComputed3D);
+    this.add(this._raySphere3D1);
   }
 
   animateIn() {
@@ -36,6 +39,7 @@ export class VisualiserScene extends InteractiveScene {
     this._floor3D.update(updateInfo);
     this._screenFrame3D.update(updateInfo);
     this._screenComputed3D.update(updateInfo);
+    this._raySphere3D1.update(updateInfo);
   }
 
   destroy() {
@@ -47,5 +51,8 @@ export class VisualiserScene extends InteractiveScene {
 
     this._screenComputed3D.destroy();
     this.remove(this._screenComputed3D);
+
+    this._raySphere3D1.destroy();
+    this.remove(this._raySphere3D1);
   }
 }
