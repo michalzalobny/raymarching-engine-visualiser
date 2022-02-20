@@ -48,6 +48,27 @@ export class ScreenFrame3D extends InteractiveObject3D {
         this._raymarchSettingsRef.ro.y,
         this._raymarchSettingsRef.ro.z * -1 - this._raymarchSettingsRef.zoom
       );
+
+      const f = new THREE.Vector3(0, 0, 1).normalize();
+      const r = new THREE.Vector3(1, 0, 0).normalize();
+
+      const roLookAt = new THREE.Vector3()
+        .copy(this._raymarchSettingsRef.lookAt)
+        .sub(this._raymarchSettingsRef.ro)
+        .normalize();
+
+      const dotF = f.dot(roLookAt);
+      const dotFSign = Math.sign(
+        this._raymarchSettingsRef.lookAt.y - this._raymarchSettingsRef.ro.y
+      );
+
+      const dotR = r.dot(roLookAt);
+      const dotRSign = Math.sign(
+        this._raymarchSettingsRef.ro.z - this._raymarchSettingsRef.lookAt.z
+      );
+
+      this._mesh.rotation.y = dotR * Math.PI * 0.5 * dotRSign;
+      // this._mesh.rotation.x = (1 - dotF) * Math.PI * 0.5 * dotFSign;
     }
   }
 
@@ -62,5 +83,6 @@ export class ScreenFrame3D extends InteractiveObject3D {
 
   setRaymarchSettingsRef(objRef: RaymarchSettings) {
     this._raymarchSettingsRef = objRef;
+    console.log('asoi', this._raymarchSettingsRef.lookAt.y);
   }
 }
