@@ -10,7 +10,6 @@ export class RayLight3D extends RayObject3D {
   constructor() {
     super();
     this._addLight();
-    this.setElPosition(new THREE.Vector3(0, 10, 0));
   }
 
   _addLight() {

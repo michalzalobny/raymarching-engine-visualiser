@@ -2,6 +2,7 @@ uniform float uTime;
 
 uniform vec3 uRo;
 uniform vec3 uLookAt;
+uniform vec3 uLightPos;
 
 varying vec2 vUv;
 
@@ -70,14 +71,13 @@ vec3 GetNormal(vec3 p) {
 float GetLight (vec3 p) {
     //To compute the light power, we need the light vector (direction of the light) and the normal vector in the given point p (also the direction)
 
-    vec3 lightPos = vec3(0.0, 12.0, -5.0); //Define the position of light
-    vec3 l = normalize(lightPos - p);
+    vec3 l = normalize(uLightPos - p);
     vec3 n = GetNormal(p);
     
     float dif = clamp(dot(n, l), 0.0, 1.0); 
 
     float d = RayMarch(p + n * SURF_DIST * 2.0, l); 
-    if(d<length(lightPos - p)) dif *= .1; //Shadow is 10% of an actual light
+    if(d<length(uLightPos - p)) dif *= .1; //Shadow is 10% of an actual light
     return dif;
 }
 

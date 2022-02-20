@@ -24,6 +24,7 @@ export class VisualiserScene extends InteractiveScene {
   _raymarchSettings: RaymarchSettings = {
     ro: new THREE.Vector3(0.0, 3.0, -10.0),
     lookAt: new THREE.Vector3(0.0, 0.75, 0.0),
+    lightPos: new THREE.Vector3(0.0, 12.0, -5.0),
   };
 
   constructor({ camera, mouseMove }: Constructor) {
@@ -35,6 +36,7 @@ export class VisualiserScene extends InteractiveScene {
     this.add(this._raySphere3D1);
     this.add(this._rayLight);
 
+    this._rayLight.setElPosition(this._raymarchSettings.lightPos);
     this._screenComputed3D.setRaymarchSettingsRef(this._raymarchSettings);
   }
 
