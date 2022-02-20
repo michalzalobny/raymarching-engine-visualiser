@@ -66,6 +66,7 @@ export class VisualiserScene extends InteractiveScene {
   _addGuiControls() {
     //Camera
     const camera = this._gui.addFolder('Camera');
+    camera.close();
     camera.add(this._raymarchSettings, 'zoom', 1, 4).name('Zoom');
     const lookAtPosition = camera.addFolder('Look at position');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -20, 20).name('X');
@@ -78,6 +79,7 @@ export class VisualiserScene extends InteractiveScene {
 
     //Light
     const light = this._gui.addFolder('Light');
+    light.close();
     light.addColor(this._raymarchSettings, 'lightColor', 1).name('Color');
     const lightPosition = light.addFolder('Light position');
     lightPosition.add(this._raymarchSettings.lightPos, 'x', -10, 10).name('X');
@@ -86,6 +88,7 @@ export class VisualiserScene extends InteractiveScene {
 
     //Objects3D
     const objects3D = this._gui.addFolder('3D Objects');
+    objects3D.close();
     const sphere1Position = objects3D.addFolder('Sphere 1 position');
     sphere1Position.add(this._raymarchSettings.sphere1, 'x', -10, 10).name('X');
     sphere1Position.add(this._raymarchSettings.sphere1, 'y', -10, 10).name('Y');
