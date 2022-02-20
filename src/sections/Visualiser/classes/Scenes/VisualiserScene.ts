@@ -39,7 +39,7 @@ export class VisualiserScene extends InteractiveScene {
     lightPos: new THREE.Vector3(6.0, 7.5, -2.0),
     lightColor: [0.92, 0.684, 0.99],
     sphere: new THREE.Vector3(1.0, 3.4, 4.0),
-    box: new THREE.Vector3(1.0, 0.9, 4.0),
+    box: new THREE.Vector3(1.0, 1.0, 4.0),
     torus: new THREE.Vector3(0.0, 0.5, 0.0),
     raySmooth: 0.0,
   };
