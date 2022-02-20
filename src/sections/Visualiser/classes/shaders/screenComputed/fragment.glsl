@@ -1,5 +1,7 @@
 uniform float uTime;
 
+uniform vec3 uRo;
+
 varying vec2 vUv;
 
 #define MAX_STEPS 100 //integer
@@ -41,24 +43,26 @@ float GetDist(vec3 p) {
     return d;
 }
 
-float RayMarch (vec3 ro, vec3 rd){
-    float dO = 0.0; //How far away we are from the ray origin
-
-    for(int i = 0; i<MAX_STEPS; i++){
-        vec3 p = ro + rd * dO; // It's the new position of the raymarched point casted from the ray origin along the ray
-        float dS = GetDist(p);//distance to the closest point in the scene , (from this point we start next loop because this distance is added to dO)
+float RayMarch(vec3 ro, vec3 rd) {
+	float dO=0.;
+    for(int i=0; i<MAX_STEPS; i++) {
+        vec3 p = ro + rd*dO;
+        float dS = GetDist(p);
         dO += dS;
-        if(dO > MAX_DIST || dS < SURF_DIST) break; // Checks if we hit something or went past by the object and MAX distance
+        if(dO>MAX_DIST || abs(dS)<SURF_DIST) break;
     }
-
     return dO;
 }
 
 //Samples the points around point p to get the line that is perpendicular to normal vector
-vec3 GetNormal( vec3 p ){
-    float d = GetDist(p);
-    vec2 e = vec2( 0.01, 0.0);
-    vec3 n = d- vec3(GetDist(p - e.xyy), GetDist(p - e.yxy), GetDist(p - e.yyx));
+vec3 GetNormal(vec3 p) {
+	float d = GetDist(p);
+    vec2 e = vec2(0.001, 0.0);
+    vec3 n = d - vec3(
+        GetDist(p-e.xyy),
+        GetDist(p-e.yxy),
+        GetDist(p-e.yyx));
+    
     return normalize(n);
 }
 
@@ -76,18 +80,28 @@ float GetLight (vec3 p) {
     return dif;
 }
 
+vec3 GetRayDir(vec2 uv, vec3 p, vec3 l, float z) {
+    vec3 f = normalize(l-p),
+        r = normalize(cross(vec3(0.0, 1.0, 0.0), f)),
+        u = cross(f,r),
+        c = f*z,
+        i = c + uv.x*r + uv.y*u,
+        d = normalize(i);
+    return d;
+}
+
 void main()
 {
     vec2 uv = vUv;
     uv -= 0.5;
     vec3 col = vec3(0.0);
 
-    vec3 ro = vec3(0.0, 3.0, -10.0); //ray origin (camera position)
-    vec3 rd = normalize(vec3(uv.x, uv.y - 0.2, 1.0));
+    float zoom = 1.0;
+    vec3 rd = GetRayDir(uv, uRo, vec3(0.0, 0.75, 0.0), zoom);
 
-    float d = RayMarch(ro, rd); //The distance to the closest point that interesects with casted ray
+    float d = RayMarch(uRo, rd); //The distance to the closest point that interesects with casted ray
 
-    vec3 p = ro + rd *d;
+    vec3 p = uRo + rd *d;
     float dif = GetLight(p); //diffused lighting
     // col = mix(vec3(0.839, 0.458, 0.941), vec3(0.976, 0.760, 0.976), dif);
     col = mix(vec3(0.364, 0.474, 0.937), vec3(0.835, 0.858, 0.964), dif);

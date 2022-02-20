@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import { MouseMove } from 'utils/singletons/MouseMove';
-import { UpdateInfo } from 'utils/sharedTypes';
+import { UpdateInfo, RaymarchSettings } from 'utils/sharedTypes';
 
 import { InteractiveScene } from './InteractiveScene';
 import { Floor3D } from '../Components/Floor3D';
@@ -21,6 +21,9 @@ export class VisualiserScene extends InteractiveScene {
   _screenComputed3D = new ScreenComputed3D();
   _raySphere3D1 = new RaySphere3D();
   _rayLight = new RayLight3D();
+  _raymarchSettings: RaymarchSettings = {
+    ro: new THREE.Vector3(0.0, 3.0, -10.0),
+  };
 
   constructor({ camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
@@ -30,6 +33,8 @@ export class VisualiserScene extends InteractiveScene {
     this.add(this._screenComputed3D);
     this.add(this._raySphere3D1);
     this.add(this._rayLight);
+
+    this._screenComputed3D.setRaymarchSettingsRef(this._raymarchSettings);
   }
 
   animateIn() {

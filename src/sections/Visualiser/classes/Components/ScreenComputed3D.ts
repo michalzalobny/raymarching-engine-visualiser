@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { UpdateInfo } from 'utils/sharedTypes';
+import { UpdateInfo, RaymarchSettings } from 'utils/sharedTypes';
 
 import vertexShader from '../shaders/screenComputed/vertex.glsl';
 import fragmentShader from '../shaders/screenComputed/fragment.glsl';
@@ -12,6 +12,7 @@ export class ScreenComputed3D extends InteractiveObject3D {
   _mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial> | null = null;
   _geometry: THREE.PlaneGeometry | null = null;
   _material: THREE.ShaderMaterial | null = null;
+  _raymarchSettingsRef: RaymarchSettings | null = null;
 
   constructor() {
     super();
@@ -28,7 +29,7 @@ export class ScreenComputed3D extends InteractiveObject3D {
       depthTest: true,
       uniforms: {
         uTime: { value: 0 },
-        uRandom: { value: Math.random() },
+        uRo: { value: new THREE.Vector3(0.0) },
       },
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
@@ -41,6 +42,9 @@ export class ScreenComputed3D extends InteractiveObject3D {
   update(updateInfo: UpdateInfo) {
     super.update(updateInfo);
     if (this._mesh) this._mesh.material.uniforms.uTime.value = updateInfo.time * 0.001;
+    if (this._mesh && this._raymarchSettingsRef) {
+      this._mesh.material.uniforms.uRo.value = this._raymarchSettingsRef.ro;
+    }
   }
 
   destroy() {
@@ -50,5 +54,9 @@ export class ScreenComputed3D extends InteractiveObject3D {
     if (this._mesh) {
       this.remove(this._mesh);
     }
+  }
+
+  setRaymarchSettingsRef(objRef: RaymarchSettings) {
+    this._raymarchSettingsRef = objRef;
   }
 }
