@@ -4,19 +4,24 @@ import { UpdateInfo } from 'utils/sharedTypes';
 
 import { InteractiveObject3D } from '../Components/InteractiveObject3D';
 
+interface Constructor {
+  size: number;
+  color: THREE.ColorRepresentation;
+}
+
 export class LabeledSphere3D extends InteractiveObject3D {
   _geometry: THREE.SphereBufferGeometry | null = null;
   _mesh: THREE.Mesh<THREE.SphereBufferGeometry, THREE.MeshBasicMaterial> | null = null;
   _material: THREE.MeshBasicMaterial | null = null;
 
-  constructor() {
+  constructor({ color, size }: Constructor) {
     super();
-    this._drawSphere();
+    this._drawSphere(size, color);
   }
 
-  _drawSphere() {
-    this._geometry = new THREE.SphereBufferGeometry(0.3, 16, 16);
-    this._material = new THREE.MeshBasicMaterial({ color: '#ffffff' });
+  _drawSphere(size: number, color: THREE.ColorRepresentation) {
+    this._geometry = new THREE.SphereBufferGeometry(size, 16, 16);
+    this._material = new THREE.MeshBasicMaterial({ color });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
     this._mesh.castShadow = true;
     this._mesh.receiveShadow = true;

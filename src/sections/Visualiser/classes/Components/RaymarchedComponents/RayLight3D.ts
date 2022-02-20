@@ -7,7 +7,7 @@ import { RayObject3D } from './RayObject3D';
 
 export class RayLight3D extends RayObject3D {
   _light: THREE.PointLight | null = null;
-  _label = new LabeledSphere3D();
+  _label = new LabeledSphere3D({ size: 0.25, color: new THREE.Color('#ffffff') });
 
   constructor() {
     super();
