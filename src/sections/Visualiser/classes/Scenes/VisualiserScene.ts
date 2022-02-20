@@ -32,6 +32,7 @@ export class VisualiserScene extends InteractiveScene {
     lookAt: new THREE.Vector3(0.0, 0.0, 0.0),
     zoom: 1.0,
     lightPos: new THREE.Vector3(0.0, 12.0, -5.0),
+    lightColor: [0.92, 0.684, 0.99],
     sphere1: new THREE.Vector3(1.0, 3.4, 4.0),
     sphere2: new THREE.Vector3(-1.0, 1.0, 4.0),
   };
@@ -58,10 +59,12 @@ export class VisualiserScene extends InteractiveScene {
 
   _addGuiControls() {
     const camera = this._gui.addFolder('Camera');
+    const light = this._gui.addFolder('Light');
+    light.addColor(this._raymarchSettings, 'lightColor', 1).name('Color');
     camera.add(this._raymarchSettings, 'zoom', 0, 10).name('Zoom');
     const cameraPosition = camera.addFolder('Camera position');
     const lookAtPosition = camera.addFolder('Look at position');
-    const lightPosition = this._gui.addFolder('Light position');
+    const lightPosition = light.addFolder('Light position');
     const sphere1Position = this._gui.addFolder('Sphere 1 position');
 
     cameraPosition.add(this._raymarchSettings.ro, 'x', -8, 8).name('X');
@@ -99,6 +102,8 @@ export class VisualiserScene extends InteractiveScene {
     this._raymarchSettings.sphere1.z += Math.cos(updateInfo.time * 0.003) * 0.01;
 
     this._rayLight.setElPosition(this._raymarchSettings.lightPos);
+    this._rayLight.setLightColor(this._raymarchSettings.lightColor);
+
     this._raySphere3D1.setElPosition(this._raymarchSettings.sphere1);
     this._raySphere3D2.setElPosition(this._raymarchSettings.sphere2);
   }

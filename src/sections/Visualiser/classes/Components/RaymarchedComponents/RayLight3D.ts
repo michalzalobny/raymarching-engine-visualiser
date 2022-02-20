@@ -13,7 +13,7 @@ export class RayLight3D extends RayObject3D {
   }
 
   _addLight() {
-    this._light = new THREE.PointLight(0xf7d3f8, 1, 1000);
+    this._light = new THREE.PointLight(0xffffff, 1, 1000);
     this._light.castShadow = true;
     this._light.shadow.mapSize.width = 2048;
     this._light.shadow.mapSize.height = 2048;
@@ -32,5 +32,9 @@ export class RayLight3D extends RayObject3D {
   setElPosition(newPos: THREE.Vector3) {
     super.setElPosition(newPos);
     this._light?.position.set(this.elPosition.x, this.elPosition.y, -this.elPosition.z);
+  }
+
+  setLightColor(newCol: [number, number, number]) {
+    this._light?.color.setRGB(newCol[0], newCol[1], newCol[2]);
   }
 }

@@ -35,6 +35,7 @@ export class ScreenComputed3D extends InteractiveObject3D {
         uLightPos: { value: new THREE.Vector3(0.0) },
         uSphere1: { value: new THREE.Vector3(0.0) },
         uSphere2: { value: new THREE.Vector3(0.0) },
+        uLightColor: { value: new THREE.Vector3(1.0) },
       },
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
@@ -54,6 +55,11 @@ export class ScreenComputed3D extends InteractiveObject3D {
       this._mesh.material.uniforms.uLightPos.value = this._raymarchSettingsRef.lightPos;
       this._mesh.material.uniforms.uSphere1.value = this._raymarchSettingsRef.sphere1;
       this._mesh.material.uniforms.uSphere2.value = this._raymarchSettingsRef.sphere2;
+      this._mesh.material.uniforms.uLightColor.value = new THREE.Vector3(
+        this._raymarchSettingsRef.lightColor[0],
+        this._raymarchSettingsRef.lightColor[1],
+        this._raymarchSettingsRef.lightColor[2]
+      );
     }
   }
 
