@@ -71,7 +71,7 @@ export class VisualiserScene extends InteractiveScene {
     const cameraPosition = camera.addFolder('Camera position');
     cameraPosition.add(this._raymarchSettings.ro, 'x', -8, 8).name('X');
     cameraPosition.add(this._raymarchSettings.ro, 'y', 0, 10).name('Y');
-    cameraPosition.add(this._raymarchSettings.ro, 'z', -10, 0).name('Z');
+    cameraPosition.add(this._raymarchSettings.ro, 'z', -10, 10).name('Z');
 
     //Light
     const light = this._gui.addFolder('Light');
