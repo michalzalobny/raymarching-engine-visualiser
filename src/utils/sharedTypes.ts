@@ -58,6 +58,6 @@ export interface RaymarchSettings {
   lightPos: THREE.Vector3;
   lightColor: [number, number, number];
   zoom: number;
-  sphere1: THREE.Vector3;
-  sphere2: THREE.Vector3;
+  sphere: THREE.Vector3;
+  box: THREE.Vector3;
 }

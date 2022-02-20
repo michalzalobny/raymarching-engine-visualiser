@@ -13,6 +13,7 @@ import { RaySphere3D } from '../Components/RaymarchedComponents/RaySphere3D';
 import { RayLight3D } from '../Components/RaymarchedComponents/RayLight3D';
 import { Line3D } from '../Components/Line3D';
 import { LabeledSphere3D } from '../Components/LabeledSphere3D';
+import { RayBox3D } from '../Components/RaymarchedComponents/RayBox3D';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
@@ -26,17 +27,17 @@ export class VisualiserScene extends InteractiveScene {
   _floor3D = new Floor3D();
   _screenFrame3D = new ScreenFrame3D();
   _screenComputed3D = new ScreenComputed3D();
-  _raySphere3D1 = new RaySphere3D();
-  _raySphere3D2 = new RaySphere3D();
+  _raySphere3D = new RaySphere3D();
+  _rayBox3D = new RayBox3D();
   _rayLight = new RayLight3D();
   _raymarchSettings: RaymarchSettings = {
     ro: new THREE.Vector3(0, 4, -9.0),
     lookAt: new THREE.Vector3(0.0, 0.0, 0.0),
     zoom: 1.0,
-    lightPos: new THREE.Vector3(-3.0, 6.0, 5.0),
+    lightPos: new THREE.Vector3(6.0, 7.5, -2.0),
     lightColor: [0.92, 0.684, 0.99],
-    sphere1: new THREE.Vector3(1.0, 3.4, 4.0),
-    sphere2: new THREE.Vector3(-1.0, 1.0, 4.0),
+    sphere: new THREE.Vector3(1.0, 3.4, 4.0),
+    box: new THREE.Vector3(1.0, 0.9, 4.0),
   };
   _gui: GUI;
   _line3D = new Line3D();
@@ -51,8 +52,8 @@ export class VisualiserScene extends InteractiveScene {
     this.add(this._floor3D);
     this.add(this._screenFrame3D);
     this.add(this._screenComputed3D);
-    this.add(this._raySphere3D1);
-    this.add(this._raySphere3D2);
+    this.add(this._raySphere3D);
+    this.add(this._rayBox3D);
     this.add(this._rayLight);
     this.add(this._line3D);
     this.add(this._lookAtLabel3D);
@@ -89,10 +90,14 @@ export class VisualiserScene extends InteractiveScene {
     //Objects3D
     const objects3D = this._gui.addFolder('3D Objects');
     objects3D.close();
-    const sphere1Position = objects3D.addFolder('Sphere 1 position');
-    sphere1Position.add(this._raymarchSettings.sphere1, 'x', -10, 10).name('X');
-    sphere1Position.add(this._raymarchSettings.sphere1, 'y', -10, 10).name('Y');
-    sphere1Position.add(this._raymarchSettings.sphere1, 'z', -10, 10).name('Z');
+    const spherePosition = objects3D.addFolder('Sphere position');
+    spherePosition.add(this._raymarchSettings.sphere, 'x', -10, 10).name('X');
+    spherePosition.add(this._raymarchSettings.sphere, 'y', -10, 10).name('Y');
+    spherePosition.add(this._raymarchSettings.sphere, 'z', -10, 10).name('Z');
+    const boxPosition = objects3D.addFolder('Box position');
+    boxPosition.add(this._raymarchSettings.box, 'x', -10, 10).name('X');
+    boxPosition.add(this._raymarchSettings.box, 'y', -10, 10).name('Y');
+    boxPosition.add(this._raymarchSettings.box, 'z', -10, 10).name('Z');
   }
 
   animateIn() {
@@ -105,18 +110,18 @@ export class VisualiserScene extends InteractiveScene {
     this._floor3D.update(updateInfo);
     this._screenFrame3D.update(updateInfo);
     this._screenComputed3D.update(updateInfo);
-    this._raySphere3D1.update(updateInfo);
-    this._raySphere3D2.update(updateInfo);
+    this._raySphere3D.update(updateInfo);
+    this._rayBox3D.update(updateInfo);
     this._rayLight.update(updateInfo);
 
-    this._raymarchSettings.sphere1.x += Math.sin(updateInfo.time * 0.003) * 0.01;
-    this._raymarchSettings.sphere1.z += Math.cos(updateInfo.time * 0.003) * 0.01;
+    this._raymarchSettings.sphere.x += Math.sin(updateInfo.time * 0.003) * 0.01;
+    this._raymarchSettings.sphere.z += Math.cos(updateInfo.time * 0.003) * 0.01;
 
     this._rayLight.setElPosition(this._raymarchSettings.lightPos);
     this._rayLight.setLightColor(this._raymarchSettings.lightColor);
 
-    this._raySphere3D1.setElPosition(this._raymarchSettings.sphere1);
-    this._raySphere3D2.setElPosition(this._raymarchSettings.sphere2);
+    this._raySphere3D.setElPosition(this._raymarchSettings.sphere);
+    this._rayBox3D.setElPosition(this._raymarchSettings.box);
 
     this._lookAtLabel3D.setElPosition(
       new THREE.Vector3(
@@ -150,11 +155,11 @@ export class VisualiserScene extends InteractiveScene {
     this._screenComputed3D.destroy();
     this.remove(this._screenComputed3D);
 
-    this._raySphere3D1.destroy();
-    this.remove(this._raySphere3D1);
+    this._raySphere3D.destroy();
+    this.remove(this._raySphere3D);
 
-    this._raySphere3D2.destroy();
-    this.remove(this._raySphere3D2);
+    this._rayBox3D.destroy();
+    this.remove(this._rayBox3D);
 
     this._rayLight.destroy();
     this.remove(this._rayLight);

@@ -33,8 +33,8 @@ export class ScreenComputed3D extends InteractiveObject3D {
         uLookAt: { value: new THREE.Vector3(0.0) },
         uZoom: { value: 1.0 },
         uLightPos: { value: new THREE.Vector3(0.0) },
-        uSphere1: { value: new THREE.Vector3(0.0) },
-        uSphere2: { value: new THREE.Vector3(0.0) },
+        uSphere: { value: new THREE.Vector3(0.0) },
+        uBox: { value: new THREE.Vector3(0.0) },
         uLightColor: { value: new THREE.Vector3(1.0) },
       },
     });
@@ -54,8 +54,8 @@ export class ScreenComputed3D extends InteractiveObject3D {
       this._mesh.material.uniforms.uLookAt.value = this._raymarchSettingsRef.lookAt;
       this._mesh.material.uniforms.uZoom.value = this._raymarchSettingsRef.zoom;
       this._mesh.material.uniforms.uLightPos.value = this._raymarchSettingsRef.lightPos;
-      this._mesh.material.uniforms.uSphere1.value = this._raymarchSettingsRef.sphere1;
-      this._mesh.material.uniforms.uSphere2.value = this._raymarchSettingsRef.sphere2;
+      this._mesh.material.uniforms.uSphere.value = this._raymarchSettingsRef.sphere;
+      this._mesh.material.uniforms.uBox.value = this._raymarchSettingsRef.box;
       this._mesh.material.uniforms.uLightColor.value = new THREE.Vector3(
         this._raymarchSettingsRef.lightColor[0],
         this._raymarchSettingsRef.lightColor[1],

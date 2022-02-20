@@ -3,8 +3,8 @@ uniform float uTime;
 uniform vec3 uRo;
 uniform vec3 uLookAt;
 uniform vec3 uLightPos;
-uniform vec3 uSphere1;
-uniform vec3 uSphere2;
+uniform vec3 uSphere;
+uniform vec3 uBox;
 uniform float uZoom;
 uniform vec3 uLightColor;
 
@@ -34,15 +34,19 @@ float smax(float a, float b, float k){
 }
 
 
+float dBox(vec3 p, vec3 s){
+    return length(max(abs(p) - s, 0.0));
+}
+
 //our 3d scene that is used to compute distanceces
 float GetDist(vec3 p) {
     float planeDist = p.y; 
 
     //Boolean substraction
-    float sphereDistA = length(p - uSphere1) - 1.0; //1.0 is default radius
-    float sphereDistB = length(p - uSphere2) - 1.0; //1.0 is default radius
-    float spheresDist = smin(sphereDistA, sphereDistB , 0.0); // smooth union
-    float d = min(planeDist, spheresDist);
+    float sphereDist = length(p - uSphere) - 1.0; //1.0 is default radius
+    float boxDist = dBox(p - uBox, vec3(1.0));
+    float d = smin(sphereDist, boxDist , 1.0); // smooth union
+    d = min(planeDist, d);
     return d;
 }
 
