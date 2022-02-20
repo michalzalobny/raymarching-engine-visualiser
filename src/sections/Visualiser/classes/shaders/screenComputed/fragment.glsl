@@ -104,7 +104,7 @@ void main()
     vec3 p = uRo + rd *d;
     float dif = GetLight(p); //diffused lighting
     // col = mix(vec3(0.839, 0.458, 0.941), vec3(0.976, 0.760, 0.976), dif);
-    col = mix(vec3(0.364, 0.474, 0.937), vec3(0.835, 0.858, 0.964), dif);
+    col = mix(vec3(0.0, 0.0, 0.0), vec3(0.968, 0.827, 0.972), dif);
 
     gl_FragColor = vec4(col, 1.0);
 }

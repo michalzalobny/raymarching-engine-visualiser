@@ -58,11 +58,11 @@ export class VisualiserScene extends InteractiveScene {
 
   _addGuiControls() {
     const camera = this._gui.addFolder('Camera');
+    camera.add(this._raymarchSettings, 'zoom', 0, 10).name('Zoom');
     const cameraPosition = camera.addFolder('Camera position');
     const lookAtPosition = camera.addFolder('Look at position');
-    const lightPosition = this._gui.addFolder('Light');
-
-    camera.add(this._raymarchSettings, 'zoom', 0, 10).name('Zoom');
+    const lightPosition = this._gui.addFolder('Light position');
+    const sphere1Position = this._gui.addFolder('Sphere 1 position');
 
     cameraPosition.add(this._raymarchSettings.ro, 'x', -8, 8).name('X');
     cameraPosition.add(this._raymarchSettings.ro, 'y', 0, 10).name('Y');
@@ -75,6 +75,10 @@ export class VisualiserScene extends InteractiveScene {
     lightPosition.add(this._raymarchSettings.lightPos, 'x', -10, 10).name('X');
     lightPosition.add(this._raymarchSettings.lightPos, 'y', -10, 10).name('Y');
     lightPosition.add(this._raymarchSettings.lightPos, 'z', -10, 10).name('Z');
+
+    sphere1Position.add(this._raymarchSettings.sphere1, 'x', -10, 10).name('X');
+    sphere1Position.add(this._raymarchSettings.sphere1, 'y', -10, 10).name('Y');
+    sphere1Position.add(this._raymarchSettings.sphere1, 'z', -10, 10).name('Z');
   }
 
   animateIn() {
@@ -91,8 +95,8 @@ export class VisualiserScene extends InteractiveScene {
     this._raySphere3D2.update(updateInfo);
     this._rayLight.update(updateInfo);
 
-    this._raymarchSettings.sphere1.x = Math.sin(updateInfo.time * 0.003);
-    this._raymarchSettings.sphere1.z = Math.cos(updateInfo.time * 0.003);
+    this._raymarchSettings.sphere1.x += Math.sin(updateInfo.time * 0.003) * 0.01;
+    this._raymarchSettings.sphere1.z += Math.cos(updateInfo.time * 0.003) * 0.01;
 
     this._rayLight.setElPosition(this._raymarchSettings.lightPos);
     this._raySphere3D1.setElPosition(this._raymarchSettings.sphere1);
