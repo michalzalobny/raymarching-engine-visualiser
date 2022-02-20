@@ -6,12 +6,13 @@ import { App } from './classes/App';
 
 export const Visualiser = () => {
   const rendererEl = useRef<HTMLDivElement>(null);
-  const [shouldUncover, setShouldUncover] = useState(false);
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
     if (!rendererEl.current) return;
 
-    appState.app = new App({ rendererEl: rendererEl.current, setShouldUncover });
+    appState.app = new App({ rendererEl: rendererEl.current, setAssetsLoaded, setFontsLoaded });
 
     return () => {
       if (appState.app) {
@@ -24,7 +25,7 @@ export const Visualiser = () => {
   return (
     <>
       <S.Wrapper>
-        <S.ReadyWrapper isLoaded={shouldUncover} />
+        <S.ReadyWrapper isLoaded={assetsLoaded && fontsLoaded} />
         <S.CanvasWrapper ref={rendererEl} />
       </S.Wrapper>
     </>

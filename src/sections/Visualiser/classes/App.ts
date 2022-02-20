@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import debounce from 'lodash.debounce';
 import { OrbitControls } from 'three-stdlib';
 import GUI from 'lil-gui';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import { preloadFont } from 'troika-three-text';
 
 import { MouseMove } from 'utils/singletons/MouseMove';
 import { Scroll } from 'utils/singletons/Scroll';
@@ -13,7 +16,8 @@ import { VisualiserScene } from './Scenes/VisualiserScene';
 
 interface Constructor {
   rendererEl: HTMLDivElement;
-  setShouldUncover: React.Dispatch<React.SetStateAction<boolean>>;
+  setAssetsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  setFontsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export class App extends THREE.EventDispatcher {
@@ -29,17 +33,19 @@ export class App extends THREE.EventDispatcher {
   _preloader = new Preloader();
   _controls: OrbitControls;
   _visualiserScene: VisualiserScene;
-  _setShouldUncoverReact: React.Dispatch<React.SetStateAction<boolean>>;
+  _setAssetsLoadedReact: React.Dispatch<React.SetStateAction<boolean>>;
+  _setFontsLoadedReact: React.Dispatch<React.SetStateAction<boolean>>;
   _gui = new GUI();
 
-  constructor({ setShouldUncover, rendererEl }: Constructor) {
+  constructor({ setFontsLoaded, setAssetsLoaded, rendererEl }: Constructor) {
     super();
     this._rendererEl = rendererEl;
     this._canvas = document.createElement('canvas');
     this._rendererEl.appendChild(this._canvas);
     this._camera = new THREE.PerspectiveCamera();
 
-    this._setShouldUncoverReact = setShouldUncover;
+    this._setAssetsLoadedReact = setAssetsLoaded;
+    this._setFontsLoadedReact = setFontsLoaded;
 
     this._renderer = new THREE.WebGLRenderer({
       canvas: this._canvas,
@@ -61,11 +67,25 @@ export class App extends THREE.EventDispatcher {
       gui: this._gui,
     });
 
+    this._preloadFonts();
+
     this._onResize();
     this._addListeners();
     this._resumeAppFrame();
 
     this._preloader.setPreloadItems([]);
+  }
+
+  _preloadFonts() {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    preloadFont(
+      {
+        font: '/fonts/openSans400.woff',
+      },
+      () => {
+        this._setFontsLoadedReact(true);
+      }
+    );
   }
 
   _onResizeDebounced = debounce(() => this._onResize(), 300);
@@ -95,7 +115,7 @@ export class App extends THREE.EventDispatcher {
   };
 
   _onAssetsLoaded = (e: THREE.Event) => {
-    this._setShouldUncoverReact(true);
+    this._setAssetsLoadedReact(true);
     this._visualiserScene.animateIn();
   };
 
