@@ -58,27 +58,29 @@ export class VisualiserScene extends InteractiveScene {
   }
 
   _addGuiControls() {
+    //Camera
     const camera = this._gui.addFolder('Camera');
-    const light = this._gui.addFolder('Light');
-    light.addColor(this._raymarchSettings, 'lightColor', 1).name('Color');
     camera.add(this._raymarchSettings, 'zoom', 0, 10).name('Zoom');
-    const cameraPosition = camera.addFolder('Camera position');
     const lookAtPosition = camera.addFolder('Look at position');
-    const lightPosition = light.addFolder('Light position');
-    const sphere1Position = this._gui.addFolder('Sphere 1 position');
-
+    lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -10, 10).name('X');
+    lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -10, 10).name('Y');
+    lookAtPosition.add(this._raymarchSettings.lookAt, 'z', -10, 10).name('Z');
+    const cameraPosition = camera.addFolder('Camera position');
     cameraPosition.add(this._raymarchSettings.ro, 'x', -8, 8).name('X');
     cameraPosition.add(this._raymarchSettings.ro, 'y', 0, 10).name('Y');
     cameraPosition.add(this._raymarchSettings.ro, 'z', -10, 0).name('Z');
 
-    lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -10, 10).name('X');
-    lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -10, 10).name('Y');
-    lookAtPosition.add(this._raymarchSettings.lookAt, 'z', -10, 10).name('Z');
-
+    //Light
+    const light = this._gui.addFolder('Light');
+    light.addColor(this._raymarchSettings, 'lightColor', 1).name('Color');
+    const lightPosition = light.addFolder('Light position');
     lightPosition.add(this._raymarchSettings.lightPos, 'x', -10, 10).name('X');
     lightPosition.add(this._raymarchSettings.lightPos, 'y', -10, 10).name('Y');
     lightPosition.add(this._raymarchSettings.lightPos, 'z', -10, 10).name('Z');
 
+    //Objects3D
+    const objects3D = this._gui.addFolder('3D Objects');
+    const sphere1Position = objects3D.addFolder('Sphere 1 position');
     sphere1Position.add(this._raymarchSettings.sphere1, 'x', -10, 10).name('X');
     sphere1Position.add(this._raymarchSettings.sphere1, 'y', -10, 10).name('Y');
     sphere1Position.add(this._raymarchSettings.sphere1, 'z', -10, 10).name('Z');
