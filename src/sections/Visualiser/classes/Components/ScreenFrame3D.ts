@@ -30,7 +30,7 @@ export class ScreenFrame3D extends InteractiveObject3D {
       ior: 1.5,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      thickness: 0.2,
+      thickness: 1,
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
     this._pivotGroup.add(this._mesh);
