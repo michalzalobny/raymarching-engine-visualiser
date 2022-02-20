@@ -54,4 +54,5 @@ export type PreloadItems = (PreloadItem | null)[];
 
 export interface RaymarchSettings {
   ro: THREE.Vector3;
+  lookAt: THREE.Vector3;
 }

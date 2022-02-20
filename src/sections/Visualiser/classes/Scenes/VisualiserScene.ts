@@ -23,6 +23,7 @@ export class VisualiserScene extends InteractiveScene {
   _rayLight = new RayLight3D();
   _raymarchSettings: RaymarchSettings = {
     ro: new THREE.Vector3(0.0, 3.0, -10.0),
+    lookAt: new THREE.Vector3(0.0, 0.75, 0.0),
   };
 
   constructor({ camera, mouseMove }: Constructor) {

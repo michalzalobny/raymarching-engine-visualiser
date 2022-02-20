@@ -1,6 +1,7 @@
 uniform float uTime;
 
 uniform vec3 uRo;
+uniform vec3 uLookAt;
 
 varying vec2 vUv;
 
@@ -97,7 +98,7 @@ void main()
     vec3 col = vec3(0.0);
 
     float zoom = 1.0;
-    vec3 rd = GetRayDir(uv, uRo, vec3(0.0, 0.75, 0.0), zoom);
+    vec3 rd = GetRayDir(uv, uRo, uLookAt, zoom);
 
     float d = RayMarch(uRo, rd); //The distance to the closest point that interesects with casted ray
 
