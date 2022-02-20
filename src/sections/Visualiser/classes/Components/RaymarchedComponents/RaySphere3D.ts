@@ -19,6 +19,7 @@ export class RaySphere3D extends RayObject3D {
     this._material = new THREE.MeshStandardMaterial({ color: '#ffffff' });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
     this._mesh.castShadow = true;
+    this._mesh.receiveShadow = true;
     this.add(this._mesh);
   }
 
