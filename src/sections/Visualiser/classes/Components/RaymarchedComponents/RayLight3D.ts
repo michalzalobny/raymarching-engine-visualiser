@@ -31,6 +31,6 @@ export class RayLight3D extends RayObject3D {
 
   setElPosition(newPos: THREE.Vector3) {
     super.setElPosition(newPos);
-    this._light?.position.set(this.elPosition.x, this.elPosition.y, this.elPosition.z);
+    this._light?.position.set(this.elPosition.x, this.elPosition.y, -this.elPosition.z);
   }
 }

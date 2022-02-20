@@ -47,18 +47,19 @@ export class App extends THREE.EventDispatcher {
 
     this._renderer.shadowMap.enabled = true;
 
+    this._controls = new OrbitControls(this._camera, this._rendererEl);
+    this._controls.enableDamping = true;
+    this._controls.update();
+
     this._visualiserScene = new VisualiserScene({
       camera: this._camera,
       mouseMove: this._mouseMove,
+      controls: this._controls,
     });
 
     this._onResize();
     this._addListeners();
     this._resumeAppFrame();
-
-    this._controls = new OrbitControls(this._camera, this._rendererEl);
-    this._controls.enableDamping = true;
-    this._controls.update();
 
     this._preloader.setPreloadItems([]);
   }

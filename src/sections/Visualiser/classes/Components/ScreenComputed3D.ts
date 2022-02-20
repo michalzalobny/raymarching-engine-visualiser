@@ -31,7 +31,10 @@ export class ScreenComputed3D extends InteractiveObject3D {
         uTime: { value: 0 },
         uRo: { value: new THREE.Vector3(0.0) },
         uLookAt: { value: new THREE.Vector3(0.0) },
+        uZoom: { value: 1.0 },
         uLightPos: { value: new THREE.Vector3(0.0) },
+        uSphere1: { value: new THREE.Vector3(0.0) },
+        uSphere2: { value: new THREE.Vector3(0.0) },
       },
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
@@ -47,7 +50,10 @@ export class ScreenComputed3D extends InteractiveObject3D {
     if (this._mesh && this._raymarchSettingsRef) {
       this._mesh.material.uniforms.uRo.value = this._raymarchSettingsRef.ro;
       this._mesh.material.uniforms.uLookAt.value = this._raymarchSettingsRef.lookAt;
+      this._mesh.material.uniforms.uZoom.value = this._raymarchSettingsRef.zoom;
       this._mesh.material.uniforms.uLightPos.value = this._raymarchSettingsRef.lightPos;
+      this._mesh.material.uniforms.uSphere1.value = this._raymarchSettingsRef.sphere1;
+      this._mesh.material.uniforms.uSphere2.value = this._raymarchSettingsRef.sphere2;
     }
   }
 

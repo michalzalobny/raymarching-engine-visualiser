@@ -3,6 +3,9 @@ uniform float uTime;
 uniform vec3 uRo;
 uniform vec3 uLookAt;
 uniform vec3 uLightPos;
+uniform vec3 uSphere1;
+uniform vec3 uSphere2;
+uniform float uZoom;
 
 varying vec2 vUv;
 
@@ -32,15 +35,12 @@ float smax(float a, float b, float k){
 
 //our 3d scene that is used to compute distanceces
 float GetDist(vec3 p) {
-    vec4 s = vec4(0.0, 1.0, 6.0, 1.0); //defining sphere -> (pos.x, pos.y, pos.z, radius)
-    float planeDist = p.y; //The plane (surface) is on the floor so the distance is just the height of camera
-
-    float onOff = pow((sin(uTime * 1.8) *0.5 + 0.5), 1.3);
+    float planeDist = p.y; 
 
     //Boolean substraction
-    float sphereDistA = length(p - vec3(0.0 + 2.0 * onOff, 2.0 + 1.0 * onOff, -0.5 + 0.5 * onOff)) - 1.0;
-    float sphereDistB = length(p - vec3(2.0 - 4.0 * onOff, 2.0, -0.5)) - 1.0;
-    float spheresDist = smin(sphereDistA, sphereDistB , 0.9); // smooth union
+    float sphereDistA = length(p - uSphere1) - 1.0; //1.0 is default radius
+    float sphereDistB = length(p - uSphere2) - 1.0; //1.0 is default radius
+    float spheresDist = smin(sphereDistA, sphereDistB , 0.0); // smooth union
     float d = min(planeDist, spheresDist);
     return d;
 }
@@ -97,8 +97,7 @@ void main()
     uv -= 0.5;
     vec3 col = vec3(0.0);
 
-    float zoom = 1.0;
-    vec3 rd = GetRayDir(uv, uRo, uLookAt, zoom);
+    vec3 rd = GetRayDir(uv, uRo, uLookAt, uZoom);
 
     float d = RayMarch(uRo, rd); //The distance to the closest point that interesects with casted ray
 
