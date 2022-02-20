@@ -1,4 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import * as THREE from 'three';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import { Text } from 'troika-three-text';
 
 import { UpdateInfo, RaymarchSettings } from 'utils/sharedTypes';
 
@@ -13,10 +21,24 @@ export class ScreenComputed3D extends InteractiveObject3D {
   _geometry: THREE.PlaneGeometry | null = null;
   _material: THREE.ShaderMaterial | null = null;
   _raymarchSettingsRef: RaymarchSettings | null = null;
+  _label = new Text();
 
   constructor() {
     super();
     this._drawScreenFrame();
+    this._label.text = '(Image plane computed in shader)';
+    this._updateText();
+  }
+
+  _updateText() {
+    this._label.anchorY = 'bottom';
+    this._label.anchorX = 'center';
+    this._label.fontSize = 0.36;
+    this._label.font = '/fonts/openSans400.woff';
+    this._label.color = 0x000000;
+    this._label.outlineColor = 0xffffff;
+    this._label.outlineWidth = '4%';
+    this.add(this._label);
   }
 
   _drawScreenFrame() {
@@ -45,6 +67,12 @@ export class ScreenComputed3D extends InteractiveObject3D {
     this._mesh.position.z = -8;
     this._mesh.position.x = -ScreenComputed3D.width;
     this._mesh.rotation.y = Math.PI * 0.25;
+
+    this._label.position.x = this._mesh.position.x;
+    this._label.position.y = this._mesh.position.y + ScreenComputed3D.width * 0.5 + 0.15;
+    this._label.position.z = this._mesh.position.z;
+    this._label.rotation.y = this._mesh.rotation.y;
+
     this.add(this._mesh);
   }
 
@@ -72,9 +100,9 @@ export class ScreenComputed3D extends InteractiveObject3D {
     super.destroy();
     this._geometry?.dispose();
     this._material?.dispose();
-    if (this._mesh) {
-      this.remove(this._mesh);
-    }
+    if (this._mesh) this.remove(this._mesh);
+    this.remove(this._label);
+    this._label.dispose();
   }
 
   setRaymarchSettingsRef(objRef: RaymarchSettings) {
