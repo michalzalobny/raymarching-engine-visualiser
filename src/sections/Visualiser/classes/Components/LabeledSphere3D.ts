@@ -27,7 +27,6 @@ export class LabeledSphere3D extends InteractiveObject3D {
   constructor({ labelText, color, size }: Constructor) {
     super();
     this._drawSphere(size, color);
-
     this._label.text = labelText;
     this._updateText();
   }
