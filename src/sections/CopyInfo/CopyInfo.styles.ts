@@ -7,7 +7,7 @@ export const GithubWrapper = styled.div`
   position: fixed;
   z-index: 20;
   top: 20px;
-  right: 30px;
+  left: 30px;
 `;
 
 export const AuthorWrapper = styled.div`
