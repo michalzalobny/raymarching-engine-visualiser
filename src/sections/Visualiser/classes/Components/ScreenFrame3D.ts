@@ -52,7 +52,7 @@ export class ScreenFrame3D extends InteractiveObject3D {
       ior: 1.5,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      thickness: 1.2,
+      thickness: 1.4,
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
     this._pivotGroup.add(this._mesh);
@@ -80,15 +80,19 @@ export class ScreenFrame3D extends InteractiveObject3D {
       this._pivotGroup.position.set(screenPos.x, screenPos.y, -screenPos.z);
 
       const labelVector = new THREE.Vector3()
-        .crossVectors(roLookAt, r)
+        .crossVectors(new THREE.Vector3().copy(roLookAt), r)
         .normalize()
         .multiplyScalar(0.6); //Offsets by 0.6
-      this._label.position.set(labelVector.x, labelVector.y, -labelVector.z);
 
-      const dir = Math.sign(this._raymarchSettingsRef.lookAt.z - this._raymarchSettingsRef.ro.z);
-      this._mesh.rotation.x = (0.5 * Math.PI - roLookAt.angleTo(u)) * dir;
-      this._label.rotation.x = (0.5 * Math.PI - roLookAt.angleTo(u)) * dir;
-      this._pivotGroup.rotation.y = (0.5 * Math.PI - roLookAt.angleTo(r)) * -dir;
+      this._label.position.set(labelVector.x, labelVector.y, labelVector.z);
+
+      let sign = Math.sign(roLookAt.z);
+      if (sign === 0) sign = 1;
+
+      this._mesh.rotation.x = (0.5 * Math.PI + roLookAt.angleTo(u)) * sign;
+      this._label.rotation.x = (0.5 * Math.PI + roLookAt.angleTo(u)) * sign + Math.PI;
+      this._label.rotation.y = Math.PI;
+      this._pivotGroup.rotation.y = (0.5 * Math.PI + roLookAt.angleTo(r)) * sign;
     }
   }
 
