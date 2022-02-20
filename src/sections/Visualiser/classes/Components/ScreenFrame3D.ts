@@ -11,6 +11,7 @@ export class ScreenFrame3D extends InteractiveObject3D {
   _geometry: THREE.PlaneGeometry | null = null;
   _material: THREE.MeshPhysicalMaterial | null = null;
   _raymarchSettingsRef: RaymarchSettings | null = null;
+  _pivotGroup = new THREE.Group();
 
   constructor() {
     super();
@@ -36,17 +37,19 @@ export class ScreenFrame3D extends InteractiveObject3D {
       thickness: 2.5 * 0,
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
-    this.add(this._mesh);
+    this._pivotGroup.add(this._mesh);
+    this.add(this._pivotGroup);
   }
 
   update(updateInfo: UpdateInfo) {
     super.update(updateInfo);
 
     if (this._mesh && this._raymarchSettingsRef) {
-      this._mesh.position.set(
+      this._pivotGroup.position.set(
         this._raymarchSettingsRef.ro.x,
         this._raymarchSettingsRef.ro.y,
-        this._raymarchSettingsRef.ro.z * -1 - this._raymarchSettingsRef.zoom
+        this._raymarchSettingsRef.ro.z * -1 +
+          this._raymarchSettingsRef.zoom * Math.sign(this._raymarchSettingsRef.ro.z)
       );
 
       const f = new THREE.Vector3(0, 0, 1).normalize();
@@ -67,8 +70,8 @@ export class ScreenFrame3D extends InteractiveObject3D {
         this._raymarchSettingsRef.ro.z - this._raymarchSettingsRef.lookAt.z
       );
 
-      this._mesh.rotation.y = dotR * Math.PI * 0.5 * dotRSign;
-      // this._mesh.rotation.x = (1 - dotF) * Math.PI * 0.5 * dotFSign;
+      this._pivotGroup.rotation.y = dotR * Math.PI * 0.5 * dotRSign;
+      this._mesh.rotation.x = (1 - dotF) * Math.PI * 0.5 * dotFSign;
     }
   }
 
@@ -76,13 +79,11 @@ export class ScreenFrame3D extends InteractiveObject3D {
     super.destroy();
     this._geometry?.dispose();
     this._material?.dispose();
-    if (this._mesh) {
-      this.remove(this._mesh);
-    }
+    if (this._mesh) this.remove(this._mesh);
+    this.remove(this._pivotGroup);
   }
 
   setRaymarchSettingsRef(objRef: RaymarchSettings) {
     this._raymarchSettingsRef = objRef;
-    console.log('asoi', this._raymarchSettingsRef.lookAt.y);
   }
 }

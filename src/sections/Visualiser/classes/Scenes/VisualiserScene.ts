@@ -26,11 +26,11 @@ export class VisualiserScene extends InteractiveScene {
   _raySphere3D2 = new RaySphere3D();
   _rayLight = new RayLight3D();
   _raymarchSettings: RaymarchSettings = {
-    ro: new THREE.Vector3(-8.0, 10, -8.0),
+    ro: new THREE.Vector3(0, 4, -9.0),
     lookAt: new THREE.Vector3(0.0, 0.0, 0.0),
     lightPos: new THREE.Vector3(0.0, 12.0, -5.0),
-    zoom: 3.0,
-    sphere1: new THREE.Vector3(1.0, 1.4, 4.0),
+    zoom: 1.0,
+    sphere1: new THREE.Vector3(1.0, 3.4, 4.0),
     sphere2: new THREE.Vector3(-1.0, 1.0, 4.0),
   };
 
@@ -84,11 +84,9 @@ export class VisualiserScene extends InteractiveScene {
     this._raySphere3D2.update(updateInfo);
     this._rayLight.update(updateInfo);
 
-    // this._raymarchSettings.sphere1.x = Math.sin(updateInfo.time * 0.003);
-    // this._raymarchSettings.sphere1.z = Math.cos(updateInfo.time * 0.003);
+    this._raymarchSettings.sphere1.x = Math.sin(updateInfo.time * 0.003);
+    this._raymarchSettings.sphere1.z = Math.cos(updateInfo.time * 0.003);
     this._raySphere3D1.setElPosition(this._raymarchSettings.sphere1);
-
-    // console.log('z', this._camera.position.z);
   }
 
   destroy() {
