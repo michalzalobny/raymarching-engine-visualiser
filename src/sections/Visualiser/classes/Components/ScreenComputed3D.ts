@@ -26,7 +26,7 @@ export class ScreenComputed3D extends InteractiveObject3D {
   constructor() {
     super();
     this._drawScreenFrame();
-    this._label.text = '(Image plane computed in shader)';
+    this._label.text = '(Image plane - computed in shader)';
     this._updateText();
   }
 
