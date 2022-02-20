@@ -77,7 +77,7 @@ export class VisualiserScene extends InteractiveScene {
     //Camera
     const camera = this._gui.addFolder('Camera');
     camera.close();
-    camera.add(this._raymarchSettings, 'zoom', 1, 4).name('Zoom');
+    camera.add(this._raymarchSettings, 'zoom', 0.1, 5).name('Focal length');
     const lookAtPosition = camera.addFolder('Look at point position');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -20, 20).name('X');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -20, 20).name('Y');
