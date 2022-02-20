@@ -25,7 +25,7 @@ export class ScreenFrame3D extends InteractiveObject3D {
   constructor() {
     super();
     this._drawScreenFrame();
-    this._label.text = 'Image plane';
+    this._label.text = '(Image plane)';
     this._updateText();
   }
 
