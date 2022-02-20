@@ -41,8 +41,8 @@ export class ScreenFrame3D extends InteractiveObject3D {
     super.update(updateInfo);
 
     if (this._mesh && this._raymarchSettingsRef) {
-      const f = new THREE.Vector3(0, 0, 1).normalize();
       const r = new THREE.Vector3(1, 0, 0).normalize();
+      const u = new THREE.Vector3(0, 1, 0).normalize();
 
       const roLookAt = new THREE.Vector3()
         .copy(this._raymarchSettingsRef.lookAt)
@@ -57,18 +57,9 @@ export class ScreenFrame3D extends InteractiveObject3D {
 
       this._pivotGroup.position.set(screenPos.x, screenPos.y, -screenPos.z);
 
-      const dotF = f.dot(roLookAt);
-      const dotFSign = Math.sign(
-        this._raymarchSettingsRef.lookAt.y - this._raymarchSettingsRef.ro.y
-      );
-
-      const dotR = r.dot(roLookAt);
-      const dotRSign = Math.sign(
-        this._raymarchSettingsRef.ro.z - this._raymarchSettingsRef.lookAt.z
-      );
-
-      this._pivotGroup.rotation.y = dotR * Math.PI * 0.5 * dotRSign;
-      this._mesh.rotation.x = (1 - dotF) * Math.PI * 0.5 * dotFSign;
+      const dir = Math.sign(this._raymarchSettingsRef.lookAt.z - this._raymarchSettingsRef.ro.z);
+      this._mesh.rotation.x = (0.5 * Math.PI - roLookAt.angleTo(u)) * dir;
+      this._pivotGroup.rotation.y = (0.5 * Math.PI - roLookAt.angleTo(r)) * -dir;
     }
   }
 

@@ -65,13 +65,13 @@ export class VisualiserScene extends InteractiveScene {
     const camera = this._gui.addFolder('Camera');
     camera.add(this._raymarchSettings, 'zoom', 0, 10).name('Zoom');
     const lookAtPosition = camera.addFolder('Look at position');
-    lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -10, 10).name('X');
-    lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -10, 10).name('Y');
-    lookAtPosition.add(this._raymarchSettings.lookAt, 'z', -10, 10).name('Z');
+    lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -20, 20).name('X');
+    lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -20, 20).name('Y');
+    lookAtPosition.add(this._raymarchSettings.lookAt, 'z', -20, 20).name('Z');
     const cameraPosition = camera.addFolder('Camera position');
-    cameraPosition.add(this._raymarchSettings.ro, 'x', -8, 8).name('X');
-    cameraPosition.add(this._raymarchSettings.ro, 'y', 0, 10).name('Y');
-    cameraPosition.add(this._raymarchSettings.ro, 'z', -10, 10).name('Z');
+    cameraPosition.add(this._raymarchSettings.ro, 'x', -20, 20).name('X');
+    cameraPosition.add(this._raymarchSettings.ro, 'y', -20, 20).name('Y');
+    cameraPosition.add(this._raymarchSettings.ro, 'z', -20, 20).name('Z');
 
     //Light
     const light = this._gui.addFolder('Light');
