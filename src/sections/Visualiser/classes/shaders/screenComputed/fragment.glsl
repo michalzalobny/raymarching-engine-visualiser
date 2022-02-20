@@ -7,6 +7,7 @@ uniform vec3 uSphere;
 uniform vec3 uBox;
 uniform float uZoom;
 uniform vec3 uLightColor;
+uniform float uRaySmooth;
 
 varying vec2 vUv;
 
@@ -45,7 +46,7 @@ float GetDist(vec3 p) {
     //Boolean substraction
     float sphereDist = length(p - uSphere) - 1.0; //1.0 is default radius
     float boxDist = dBox(p - uBox, vec3(1.0));
-    float d = smin(sphereDist, boxDist , 1.0); // smooth union
+    float d = smin(sphereDist, boxDist , uRaySmooth); // smooth union
     d = min(planeDist, d);
     return d;
 }
