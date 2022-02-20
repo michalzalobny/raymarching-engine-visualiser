@@ -45,7 +45,11 @@ export class VisualiserScene extends InteractiveScene {
   };
   _gui: GUI;
   _line3D = new Line3D();
-  _lookAtLabel3D = new LabeledSphere3D({ size: 0.1, color: new THREE.Color('#00ff00') });
+  _lookAtLabel3D = new LabeledSphere3D({
+    size: 0.1,
+    color: new THREE.Color('#00ff00'),
+    labelText: '(Look at)',
+  });
 
   constructor({ gui, controls, camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
@@ -74,7 +78,7 @@ export class VisualiserScene extends InteractiveScene {
     const camera = this._gui.addFolder('Camera');
     camera.close();
     camera.add(this._raymarchSettings, 'zoom', 1, 4).name('Zoom');
-    const lookAtPosition = camera.addFolder('Look at position');
+    const lookAtPosition = camera.addFolder('Look at point position');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -20, 20).name('X');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -20, 20).name('Y');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'z', -20, 20).name('Z');
