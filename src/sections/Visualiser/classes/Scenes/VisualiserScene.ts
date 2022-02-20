@@ -50,36 +50,17 @@ export class VisualiserScene extends InteractiveScene {
     this.add(this._raySphere3D2);
     this.add(this._rayLight);
 
-    this._rayLight.setElPosition(this._raymarchSettings.lightPos);
-    this._raySphere3D1.setElPosition(this._raymarchSettings.sphere1);
-    this._raySphere3D2.setElPosition(this._raymarchSettings.sphere2);
-
     this._screenComputed3D.setRaymarchSettingsRef(this._raymarchSettings);
     this._screenFrame3D.setRaymarchSettingsRef(this._raymarchSettings);
 
-    setTimeout(() => {
-      this._moveCamera();
-    }, 50);
-
     this._addGuiControls();
-  }
-
-  _moveCamera() {
-    this._camera.position.set(
-      this._raymarchSettings.ro.x,
-      this._raymarchSettings.ro.y,
-      -this._raymarchSettings.ro.z
-    );
-
-    this._camera.updateProjectionMatrix();
-
-    this._controls.update();
   }
 
   _addGuiControls() {
     const camera = this._gui.addFolder('Camera');
     const cameraPosition = camera.addFolder('Camera position');
     const lookAtPosition = camera.addFolder('Look at position');
+    const lightPosition = this._gui.addFolder('Light');
 
     camera.add(this._raymarchSettings, 'zoom', 0, 10).name('Zoom');
 
@@ -90,6 +71,10 @@ export class VisualiserScene extends InteractiveScene {
     lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -10, 10).name('X');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -10, 10).name('Y');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'z', -10, 10).name('Z');
+
+    lightPosition.add(this._raymarchSettings.lightPos, 'x', -10, 10).name('X');
+    lightPosition.add(this._raymarchSettings.lightPos, 'y', -10, 10).name('Y');
+    lightPosition.add(this._raymarchSettings.lightPos, 'z', -10, 10).name('Z');
   }
 
   animateIn() {
@@ -108,7 +93,10 @@ export class VisualiserScene extends InteractiveScene {
 
     this._raymarchSettings.sphere1.x = Math.sin(updateInfo.time * 0.003);
     this._raymarchSettings.sphere1.z = Math.cos(updateInfo.time * 0.003);
+
+    this._rayLight.setElPosition(this._raymarchSettings.lightPos);
     this._raySphere3D1.setElPosition(this._raymarchSettings.sphere1);
+    this._raySphere3D2.setElPosition(this._raymarchSettings.sphere2);
   }
 
   destroy() {
