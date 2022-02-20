@@ -7,7 +7,7 @@ import fragmentShader from '../shaders/screenComputed/fragment.glsl';
 import { InteractiveObject3D } from './InteractiveObject3D';
 
 export class ScreenComputed3D extends InteractiveObject3D {
-  static width = 5;
+  static width = 8;
 
   _mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial> | null = null;
   _geometry: THREE.PlaneGeometry | null = null;
@@ -39,9 +39,10 @@ export class ScreenComputed3D extends InteractiveObject3D {
       },
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
-    this._mesh.position.y = ScreenComputed3D.width * 0.5;
-    this._mesh.position.z = 0;
-    this._mesh.position.x = -8 + ScreenComputed3D.width * 0.5;
+    this._mesh.position.y = ScreenComputed3D.width * 0.6;
+    this._mesh.position.z = -8;
+    this._mesh.position.x = -ScreenComputed3D.width;
+    this._mesh.rotation.y = Math.PI * 0.25;
     this.add(this._mesh);
   }
 
