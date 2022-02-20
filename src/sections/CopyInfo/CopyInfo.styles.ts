@@ -6,7 +6,7 @@ import { underline, s1 } from 'utils/sharedStyled';
 export const GithubWrapper = styled.div`
   position: fixed;
   z-index: 20;
-  top: 20px;
+  bottom: 20px;
   left: 30px;
 `;
 
