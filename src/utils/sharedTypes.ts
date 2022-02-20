@@ -60,5 +60,6 @@ export interface RaymarchSettings {
   zoom: number;
   sphere: THREE.Vector3;
   box: THREE.Vector3;
+  torus: THREE.Vector3;
   raySmooth: number;
 }

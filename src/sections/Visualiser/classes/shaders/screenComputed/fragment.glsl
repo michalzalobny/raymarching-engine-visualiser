@@ -5,6 +5,7 @@ uniform vec3 uLookAt;
 uniform vec3 uLightPos;
 uniform vec3 uSphere;
 uniform vec3 uBox;
+uniform vec3 uTorus;
 uniform float uZoom;
 uniform vec3 uLightColor;
 uniform float uRaySmooth;
@@ -39,6 +40,11 @@ float dBox(vec3 p, vec3 s){
     return length(max(abs(p) - s, 0.0));
 }
 
+float dTorus(vec3 p, vec2 r){
+    float x = length(p.xz) - r.x;
+    return length(vec2(x, p.y)) - r.y;
+}
+
 //our 3d scene that is used to compute distanceces
 float GetDist(vec3 p) {
     float planeDist = p.y; 
@@ -46,7 +52,9 @@ float GetDist(vec3 p) {
     //Boolean substraction
     float sphereDist = length(p - uSphere) - 1.0; //1.0 is default radius
     float boxDist = dBox(p - uBox, vec3(1.0));
-    float d = smin(sphereDist, boxDist , uRaySmooth); // smooth union
+    float torusDist = dTorus(p - uTorus, vec2(1.5, 0.5));
+    float d = smin(sphereDist, boxDist , uRaySmooth);
+    d = smin(d , torusDist, uRaySmooth); 
     d = min(planeDist, d);
     return d;
 }
