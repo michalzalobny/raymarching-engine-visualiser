@@ -74,8 +74,9 @@ export class App extends THREE.EventDispatcher {
     const aspectRatio = rendererBounds.width / rendererBounds.height;
     this._camera.aspect = aspectRatio;
 
-    this._camera.position.z = 10;
+    this._camera.position.z = 20;
     this._camera.position.y = 10;
+    this._camera.position.x = 10;
 
     this._renderer.setSize(rendererBounds.width, rendererBounds.height);
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
