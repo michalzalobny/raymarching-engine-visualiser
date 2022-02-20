@@ -53,6 +53,7 @@ export class App extends THREE.EventDispatcher {
     this._controls.enableDamping = true;
     this._controls.update();
 
+    this._gui.title('Scene settings');
     this._visualiserScene = new VisualiserScene({
       camera: this._camera,
       mouseMove: this._mouseMove,
