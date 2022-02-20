@@ -26,6 +26,7 @@ export class ScreenFrame3D extends InteractiveObject3D {
       metalness: 0,
       roughness: 0,
       transmission: 1,
+      opacity: 1,
       ior: 1.5,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
