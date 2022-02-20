@@ -27,14 +27,9 @@ export class ScreenFrame3D extends InteractiveObject3D {
       roughness: 0,
       transmission: 1,
       ior: 1.5,
-      reflectivity: 0.7,
-      clearcoat: 1,
-      clearcoatRoughness: 0.1,
-      normalScale: new THREE.Vector2(0.3),
-      clearcoatNormalScale: new THREE.Vector2(0.2),
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      thickness: 2.5 * 0,
+      thickness: 0.2,
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
     this._pivotGroup.add(this._mesh);
