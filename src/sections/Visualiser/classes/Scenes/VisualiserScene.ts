@@ -12,6 +12,7 @@ import { ScreenComputed3D } from '../Components/ScreenComputed3D';
 import { RaySphere3D } from '../Components/RaymarchedComponents/RaySphere3D';
 import { RayLight3D } from '../Components/RaymarchedComponents/RayLight3D';
 import { Line3D } from '../Components/Line3D';
+import { LabeledSphere3D } from '../Components/LabeledSphere3D';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
@@ -39,6 +40,7 @@ export class VisualiserScene extends InteractiveScene {
   };
   _gui: GUI;
   _line3D = new Line3D();
+  _lookAtLabel3D = new LabeledSphere3D({ size: 0.1, color: new THREE.Color('#00ff00') });
 
   constructor({ gui, controls, camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
@@ -53,6 +55,7 @@ export class VisualiserScene extends InteractiveScene {
     this.add(this._raySphere3D2);
     this.add(this._rayLight);
     this.add(this._line3D);
+    this.add(this._lookAtLabel3D);
 
     this._screenComputed3D.setRaymarchSettingsRef(this._raymarchSettings);
     this._screenFrame3D.setRaymarchSettingsRef(this._raymarchSettings);
@@ -112,6 +115,14 @@ export class VisualiserScene extends InteractiveScene {
     this._raySphere3D1.setElPosition(this._raymarchSettings.sphere1);
     this._raySphere3D2.setElPosition(this._raymarchSettings.sphere2);
 
+    this._lookAtLabel3D.setElPosition(
+      new THREE.Vector3(
+        this._raymarchSettings.lookAt.x,
+        this._raymarchSettings.lookAt.y,
+        -this._raymarchSettings.lookAt.z
+      )
+    );
+
     this._line3D.updateLinePos(
       new THREE.Vector3(
         this._raymarchSettings.ro.x,
@@ -147,5 +158,8 @@ export class VisualiserScene extends InteractiveScene {
 
     this._line3D.destroy();
     this.remove(this._line3D);
+
+    this._lookAtLabel3D.destroy();
+    this.remove(this._lookAtLabel3D);
   }
 }

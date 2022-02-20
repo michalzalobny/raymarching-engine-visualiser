@@ -23,8 +23,6 @@ export class LabeledSphere3D extends InteractiveObject3D {
     this._geometry = new THREE.SphereBufferGeometry(size, 16, 16);
     this._material = new THREE.MeshBasicMaterial({ color });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
-    this._mesh.castShadow = true;
-    this._mesh.receiveShadow = true;
     this.add(this._mesh);
   }
 
