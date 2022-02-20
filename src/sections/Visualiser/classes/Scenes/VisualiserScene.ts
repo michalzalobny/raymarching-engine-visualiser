@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three-stdlib';
+import GUI from 'lil-gui';
 
 import { MouseMove } from 'utils/singletons/MouseMove';
 import { UpdateInfo, RaymarchSettings } from 'utils/sharedTypes';
@@ -15,6 +16,7 @@ interface Constructor {
   camera: THREE.PerspectiveCamera;
   mouseMove: MouseMove;
   controls: OrbitControls;
+  gui: GUI;
 }
 
 export class VisualiserScene extends InteractiveScene {
@@ -28,16 +30,18 @@ export class VisualiserScene extends InteractiveScene {
   _raymarchSettings: RaymarchSettings = {
     ro: new THREE.Vector3(0, 4, -9.0),
     lookAt: new THREE.Vector3(0.0, 0.0, 0.0),
-    lightPos: new THREE.Vector3(0.0, 12.0, -5.0),
     zoom: 1.0,
+    lightPos: new THREE.Vector3(0.0, 12.0, -5.0),
     sphere1: new THREE.Vector3(1.0, 3.4, 4.0),
     sphere2: new THREE.Vector3(-1.0, 1.0, 4.0),
   };
+  _gui: GUI;
 
-  constructor({ controls, camera, mouseMove }: Constructor) {
+  constructor({ gui, controls, camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
 
     this._controls = controls;
+    this._gui = gui;
 
     this.add(this._floor3D);
     this.add(this._screenFrame3D);
@@ -56,6 +60,8 @@ export class VisualiserScene extends InteractiveScene {
     setTimeout(() => {
       this._moveCamera();
     }, 50);
+
+    this._addGuiControls();
   }
 
   _moveCamera() {
@@ -68,6 +74,22 @@ export class VisualiserScene extends InteractiveScene {
     this._camera.updateProjectionMatrix();
 
     this._controls.update();
+  }
+
+  _addGuiControls() {
+    const camera = this._gui.addFolder('Camera');
+    const cameraPosition = camera.addFolder('Camera position');
+    const lookAtPosition = camera.addFolder('Look at position');
+
+    camera.add(this._raymarchSettings, 'zoom', 0, 10).name('Zoom');
+
+    cameraPosition.add(this._raymarchSettings.ro, 'x', -8, 8).name('X');
+    cameraPosition.add(this._raymarchSettings.ro, 'y', 0, 10).name('Y');
+    cameraPosition.add(this._raymarchSettings.ro, 'z', -10, 0).name('Z');
+
+    lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -10, 10).name('X');
+    lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -10, 10).name('Y');
+    lookAtPosition.add(this._raymarchSettings.lookAt, 'z', -10, 10).name('Z');
   }
 
   animateIn() {

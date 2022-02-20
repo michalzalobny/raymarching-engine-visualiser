@@ -2,6 +2,7 @@ import TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
 import debounce from 'lodash.debounce';
 import { OrbitControls } from 'three-stdlib';
+import GUI from 'lil-gui';
 
 import { MouseMove } from 'utils/singletons/MouseMove';
 import { Scroll } from 'utils/singletons/Scroll';
@@ -29,6 +30,7 @@ export class App extends THREE.EventDispatcher {
   _controls: OrbitControls;
   _visualiserScene: VisualiserScene;
   _setShouldUncoverReact: React.Dispatch<React.SetStateAction<boolean>>;
+  _gui = new GUI();
 
   constructor({ setShouldUncover, rendererEl }: Constructor) {
     super();
@@ -55,6 +57,7 @@ export class App extends THREE.EventDispatcher {
       camera: this._camera,
       mouseMove: this._mouseMove,
       controls: this._controls,
+      gui: this._gui,
     });
 
     this._onResize();
