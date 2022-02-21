@@ -19,11 +19,12 @@ export class ScreenFrame3D extends InteractiveObject3D {
   _geometry: THREE.PlaneGeometry | null = null;
   _material: THREE.MeshPhysicalMaterial | null = null;
   _raymarchSettingsRef: RaymarchSettings | null = null;
-  _pivotGroup = new THREE.Group();
   _label = new Text();
+  _pivotGroup = new THREE.Group();
 
   constructor() {
     super();
+    this.add(this._pivotGroup);
     this._drawScreenFrame();
     this._label.text = '(Image plane)';
     this._updateText();
@@ -52,20 +53,16 @@ export class ScreenFrame3D extends InteractiveObject3D {
       ior: 1.5,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      thickness: 1.4,
+      thickness: 1.5,
     });
     this._mesh = new THREE.Mesh(this._geometry, this._material);
     this._pivotGroup.add(this._mesh);
-    this.add(this._pivotGroup);
   }
 
   update(updateInfo: UpdateInfo) {
     super.update(updateInfo);
 
     if (this._mesh && this._raymarchSettingsRef) {
-      const r = new THREE.Vector3(1, 0, 0).normalize();
-      const u = new THREE.Vector3(0, 1, 0).normalize();
-
       const roLookAt = new THREE.Vector3()
         .copy(this._raymarchSettingsRef.lookAt)
         .sub(this._raymarchSettingsRef.ro)
@@ -79,20 +76,15 @@ export class ScreenFrame3D extends InteractiveObject3D {
 
       this._pivotGroup.position.set(screenPos.x, screenPos.y, -screenPos.z);
 
-      const labelVector = new THREE.Vector3()
-        .crossVectors(new THREE.Vector3().copy(roLookAt), r)
-        .normalize()
-        .multiplyScalar(0.6); //Offsets by 0.6
+      this._pivotGroup.lookAt(
+        this._raymarchSettingsRef.lookAt.x,
+        this._raymarchSettingsRef.lookAt.y,
+        -this._raymarchSettingsRef.lookAt.z
+      );
 
-      this._label.position.set(labelVector.x, labelVector.y, labelVector.z);
-
-      let sign = Math.sign(roLookAt.z);
-      if (sign === 0) sign = 1;
-
-      this._mesh.rotation.x = (0.5 * Math.PI + roLookAt.angleTo(u)) * sign;
-      this._label.rotation.x = (0.5 * Math.PI + roLookAt.angleTo(u)) * sign + Math.PI;
+      this._label.position.y = 0.6;
+      this._label.rotation.x = Math.PI * 2;
       this._label.rotation.y = Math.PI;
-      this._pivotGroup.rotation.y = (0.5 * Math.PI + roLookAt.angleTo(r)) * sign;
     }
   }
 
