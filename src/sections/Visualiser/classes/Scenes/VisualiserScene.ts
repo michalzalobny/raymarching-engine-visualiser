@@ -99,10 +99,12 @@ export class VisualiserScene extends InteractiveScene {
       })
       .name('Focus camera');
     const lookAtPosition = camera.addFolder('Look at point position');
+    lookAtPosition.close();
     lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -20, 20).name('X');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -20, 20).name('Y');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'z', -20, 20).name('Z');
     const cameraPosition = camera.addFolder('Camera position');
+    cameraPosition.close();
     cameraPosition.add(this._raymarchSettings.ro, 'x', -20, 20).name('X');
     cameraPosition.add(this._raymarchSettings.ro, 'y', -20, 20).name('Y');
     cameraPosition.add(this._raymarchSettings.ro, 'z', -20, 20).name('Z');
@@ -112,6 +114,7 @@ export class VisualiserScene extends InteractiveScene {
     light.close();
     light.addColor(this._raymarchSettings, 'lightColor', 1).name('Color');
     const lightPosition = light.addFolder('Light position');
+    lightPosition.close();
     lightPosition.add(this._raymarchSettings.lightPos, 'x', -15, 15).name('X');
     lightPosition.add(this._raymarchSettings.lightPos, 'y', 1, 15).name('Y');
     lightPosition.add(this._raymarchSettings.lightPos, 'z', -15, 15).name('Z');
@@ -122,21 +125,25 @@ export class VisualiserScene extends InteractiveScene {
 
     objects3D.add(this._raymarchSettings, 'animateSpheres').name('Animate spheres');
     const spherePosition = objects3D.addFolder('Sphere position');
+    spherePosition.close();
     spherePosition.add(this._raymarchSettings.sphere, 'x', -10, 10).name('X');
     spherePosition.add(this._raymarchSettings.sphere, 'y', -10, 10).name('Y');
     spherePosition.add(this._raymarchSettings.sphere, 'z', -10, 10).name('Z');
 
     const sphere2Position = objects3D.addFolder('Sphere 2 position');
+    sphere2Position.close();
     sphere2Position.add(this._raymarchSettings.sphere2, 'x', -10, 10).name('X');
     sphere2Position.add(this._raymarchSettings.sphere2, 'y', -10, 10).name('Y');
     sphere2Position.add(this._raymarchSettings.sphere2, 'z', -10, 10).name('Z');
 
     const boxPosition = objects3D.addFolder('Box position');
+    boxPosition.close();
     boxPosition.add(this._raymarchSettings.box, 'x', -10, 10).name('X');
     boxPosition.add(this._raymarchSettings.box, 'y', -10, 10).name('Y');
     boxPosition.add(this._raymarchSettings.box, 'z', -10, 10).name('Z');
 
     const torusPosition = objects3D.addFolder('Torus position');
+    torusPosition.close();
     torusPosition.add(this._raymarchSettings.torus, 'x', -10, 10).name('X');
     torusPosition.add(this._raymarchSettings.torus, 'y', -10, 10).name('Y');
     torusPosition.add(this._raymarchSettings.torus, 'z', -10, 10).name('Z');
