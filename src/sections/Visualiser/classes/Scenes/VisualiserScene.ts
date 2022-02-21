@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three-stdlib';
 import GUI from 'lil-gui';
+import TWEEN, { Tween } from '@tweenjs/tween.js';
 
 import { MouseMove } from 'utils/singletons/MouseMove';
-import { UpdateInfo, RaymarchSettings } from 'utils/sharedTypes';
+import { UpdateInfo, RaymarchSettings, AnimateCamera } from 'utils/sharedTypes';
 
 import { InteractiveScene } from './InteractiveScene';
 import { Floor3D } from '../Components/Floor3D';
@@ -37,11 +38,12 @@ export class VisualiserScene extends InteractiveScene {
     lookAt: new THREE.Vector3(0.0, 0.0, 0.0),
     zoom: 1.0,
     lightPos: new THREE.Vector3(6.0, 7.5, -2.0),
-    lightColor: [0.92, 0.684, 0.99],
+    lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(1.0, 3.4, 4.0),
     box: new THREE.Vector3(1.0, 1.0, 4.0),
     torus: new THREE.Vector3(0.0, 0.5, 0.0),
     raySmooth: 0.0,
+    isCameraFocused: false,
   };
   _gui: GUI;
   _line3D = new Line3D();
@@ -50,6 +52,10 @@ export class VisualiserScene extends InteractiveScene {
     color: new THREE.Color('#00ff00'),
     labelText: '(Look at)',
   });
+  _cameraTween: Tween<{ cameraPosition: THREE.Vector3; cameraLookAt: THREE.Vector3 }> | null = null;
+  _lastCameraSettings = {
+    position: new THREE.Vector3(0, 0, 0),
+  };
 
   constructor({ gui, controls, camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
@@ -78,6 +84,16 @@ export class VisualiserScene extends InteractiveScene {
     const camera = this._gui.addFolder('Camera');
     camera.close();
     camera.add(this._raymarchSettings, 'zoom', 0.1, 5).name('Focal length');
+    camera
+      .add(this._raymarchSettings, 'isCameraFocused')
+      .onFinishChange((isFocused: boolean) => {
+        if (isFocused) {
+          this._focusCamera();
+        } else {
+          this._defocusCamera();
+        }
+      })
+      .name('Focus camera');
     const lookAtPosition = camera.addFolder('Look at point position');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'x', -20, 20).name('X');
     lookAtPosition.add(this._raymarchSettings.lookAt, 'y', -20, 20).name('Y');
@@ -117,6 +133,65 @@ export class VisualiserScene extends InteractiveScene {
 
     //Shader
     this._gui.add(this._raymarchSettings, 'raySmooth', 0, 1).name('Raymarch smooth');
+  }
+
+  animateCamera({ lookAt, position }: AnimateCamera) {
+    if (this._cameraTween) {
+      this._cameraTween.stop();
+    }
+
+    const from = {
+      cameraPosition: new THREE.Vector3(
+        this._camera.position.x,
+        this._camera.position.y,
+        -this._camera.position.z
+      ),
+      cameraLookAt: new THREE.Vector3(
+        this._controls.target.x,
+        this._controls.target.y,
+        -this._controls.target.z
+      ),
+    };
+
+    const to = {
+      cameraPosition: position,
+      cameraLookAt: lookAt,
+    };
+
+    this._cameraTween = new TWEEN.Tween(from)
+      .to(to, 1200)
+      .easing(TWEEN.Easing.Exponential.InOut)
+      .onUpdate(obj => {
+        this._controls.target.set(obj.cameraLookAt.x, obj.cameraLookAt.y, -obj.cameraLookAt.z);
+        this._camera.position.set(
+          obj.cameraPosition.x,
+          obj.cameraPosition.y,
+          -obj.cameraPosition.z
+        );
+      });
+
+    this._cameraTween.start();
+  }
+
+  _focusCamera() {
+    this._lastCameraSettings.position = new THREE.Vector3().copy(this._camera.position);
+    this.animateCamera({
+      position: this._raymarchSettings.ro,
+      lookAt: this._raymarchSettings.lookAt,
+    });
+    this._controls.enabled = false;
+  }
+
+  _defocusCamera() {
+    this.animateCamera({
+      position: new THREE.Vector3(
+        this._lastCameraSettings.position.x,
+        this._lastCameraSettings.position.y,
+        -this._lastCameraSettings.position.z
+      ),
+      lookAt: new THREE.Vector3(0, 0, 0),
+    });
+    this._controls.enabled = true;
   }
 
   animateIn() {

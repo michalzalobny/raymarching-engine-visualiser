@@ -62,4 +62,10 @@ export interface RaymarchSettings {
   box: THREE.Vector3;
   torus: THREE.Vector3;
   raySmooth: number;
+  isCameraFocused: boolean;
+}
+
+export interface AnimateCamera {
+  lookAt: THREE.Vector3;
+  position: THREE.Vector3;
 }
