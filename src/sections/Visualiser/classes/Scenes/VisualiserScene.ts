@@ -41,7 +41,8 @@ export class VisualiserScene extends InteractiveScene {
     lightPos: new THREE.Vector3(-2, 9, -5.0),
     lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(1.0, 3.4, 4.0),
-    sphere2: new THREE.Vector3(3.0, 3.4, 4.0),
+    sphere2: new THREE.Vector3(3.0, 2.4, 4.0),
+    animateSpheres: false,
     box: new THREE.Vector3(4.0, 1.0, -2.0),
     torus: new THREE.Vector3(-3.0, 0.5, 1.0),
     raySmooth: 0.0,
@@ -119,6 +120,7 @@ export class VisualiserScene extends InteractiveScene {
     const objects3D = this._gui.addFolder('3D Objects');
     objects3D.close();
 
+    objects3D.add(this._raymarchSettings, 'animateSpheres').name('Animate spheres');
     const spherePosition = objects3D.addFolder('Sphere position');
     spherePosition.add(this._raymarchSettings.sphere, 'x', -10, 10).name('X');
     spherePosition.add(this._raymarchSettings.sphere, 'y', -10, 10).name('Y');
@@ -218,8 +220,18 @@ export class VisualiserScene extends InteractiveScene {
     this._rayTorus3D.update(updateInfo);
     this._rayLight.update(updateInfo);
 
-    this._raymarchSettings.sphere.x += Math.sin(updateInfo.time * 0.003) * 0.01;
-    this._raymarchSettings.sphere.z += Math.cos(updateInfo.time * 0.003) * 0.01;
+    if (this._raymarchSettings.animateSpheres) {
+      const onOff = Math.sin(updateInfo.time * 0.002);
+      const onOff2 = Math.cos(updateInfo.time * 0.002);
+
+      this._raymarchSettings.sphere.x += onOff * 0.03;
+      this._raymarchSettings.sphere.y += onOff * 0.03;
+      this._raymarchSettings.sphere.z += onOff2 * 0.01;
+
+      this._raymarchSettings.sphere2.x -= onOff2 * 0.04;
+      this._raymarchSettings.sphere2.y += onOff2 * 0.02;
+      this._raymarchSettings.sphere2.z -= onOff * 0.01;
+    }
 
     this._rayLight.setElPosition(this._raymarchSettings.lightPos);
     this._rayLight.setLightColor(this._raymarchSettings.lightColor);
