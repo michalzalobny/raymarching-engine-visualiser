@@ -1,17 +1,20 @@
 import { EventDispatcher } from 'three';
 import * as THREE from 'three';
-import { GLTFLoader, GLTF } from 'three-stdlib';
+import { GLTFLoader, GLTF, DRACOLoader } from 'three-stdlib';
 
 import { MediaItems, PreloadItems } from 'utils/sharedTypes';
 
 export class Preloader extends EventDispatcher {
   _assetsLoaded = 0;
   _items: PreloadItems = [];
+  _dracoLoader = new DRACOLoader();
   _gltfLoader = new GLTFLoader();
   mediaItems: MediaItems = {};
 
   constructor() {
     super();
+    this._dracoLoader.setDecoderPath('/draco/');
+    this._gltfLoader.setDRACOLoader(this._dracoLoader);
   }
 
   _preloadTextures() {
@@ -62,16 +65,15 @@ export class Preloader extends EventDispatcher {
           item.src,
           (gltf: GLTF) => {
             this.mediaItems[item.src] = {
-              item: gltf.scene,
+              item: gltf,
               naturalWidth: gltf.scene.children[0].scale.x || 1,
               naturalHeight: gltf.scene.children[0].scale.y || 1,
             };
 
             this._onAssetLoaded();
           },
-          progress => {
-            console.log(progress);
-          },
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          progress => {},
           error => {
             console.warn('3D model loading failed', error);
             this._onAssetLoaded();

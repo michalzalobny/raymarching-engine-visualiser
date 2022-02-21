@@ -1,7 +1,7 @@
 import TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
 import debounce from 'lodash.debounce';
-import { OrbitControls } from 'three-stdlib';
+import { OrbitControls, GLTF } from 'three-stdlib';
 import GUI from 'lil-gui';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
@@ -13,6 +13,7 @@ import { sharedValues } from 'utils/sharedValues';
 
 import { Preloader } from './utility/Preloader';
 import { VisualiserScene } from './Scenes/VisualiserScene';
+import cameraSrc from './assets/camera.glb';
 
 interface Constructor {
   rendererEl: HTMLDivElement;
@@ -73,7 +74,7 @@ export class App extends THREE.EventDispatcher {
     this._addListeners();
     this._resumeAppFrame();
 
-    this._preloader.setPreloadItems([]);
+    this._preloader.setPreloadItems([{ src: cameraSrc, type: '3dmodel' }]);
   }
 
   _preloadFonts() {
@@ -114,9 +115,10 @@ export class App extends THREE.EventDispatcher {
     }
   };
 
-  _onAssetsLoaded = (e: THREE.Event) => {
+  _onAssetsLoaded = () => {
     this._setAssetsLoadedReact(true);
     this._visualiserScene.animateIn();
+    this._visualiserScene.setCameraModel(this._preloader.mediaItems[cameraSrc].item as GLTF);
   };
 
   _addListeners() {

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three-stdlib';
+import { OrbitControls, GLTF } from 'three-stdlib';
 import GUI from 'lil-gui';
 import TWEEN, { Tween } from '@tweenjs/tween.js';
 
@@ -59,6 +59,9 @@ export class VisualiserScene extends InteractiveScene {
   _lastCameraSettings = {
     position: new THREE.Vector3(0, 0, 0),
   };
+  _cameraModel3D: THREE.Group | null = null;
+  _cameraPivotGroup = new THREE.Group();
+  _cameraModelMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
 
   constructor({ gui, controls, camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
@@ -270,7 +273,28 @@ export class VisualiserScene extends InteractiveScene {
     );
   }
 
+  setCameraModel(gltf: GLTF) {
+    gltf.scene.traverse(child => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      child.material = this._cameraModelMaterial;
+    });
+
+    gltf.scene.rotation.y = -Math.PI * 0.5;
+    gltf.scene.scale.set(1, 1, 1);
+
+    const model = gltf.scene;
+    this._cameraPivotGroup.add(model);
+    this._cameraModel3D = this._cameraPivotGroup;
+    this.add(this._cameraPivotGroup);
+    this._screenFrame3D.setCameraModelRef(this._cameraModel3D);
+  }
+
   destroy() {
+    if (this._cameraModel3D) this._cameraPivotGroup.remove(this._cameraModel3D);
+    this.remove(this._cameraPivotGroup);
+    this._cameraModelMaterial.dispose();
+
     this._floor3D.destroy();
     this.remove(this._floor3D);
 

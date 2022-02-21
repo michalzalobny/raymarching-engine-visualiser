@@ -21,6 +21,7 @@ export class ScreenFrame3D extends InteractiveObject3D {
   _raymarchSettingsRef: RaymarchSettings | null = null;
   _label = new Text();
   _pivotGroup = new THREE.Group();
+  _cameraModel3DRef: THREE.Group | null = null;
 
   constructor() {
     super();
@@ -85,7 +86,28 @@ export class ScreenFrame3D extends InteractiveObject3D {
       this._label.position.y = 0.6;
       this._label.rotation.x = Math.PI * 2;
       this._label.rotation.y = Math.PI;
+
+      //camera model
+      if (this._cameraModel3DRef) {
+        const cameraPos = new THREE.Vector3(
+          this._raymarchSettingsRef.ro.x,
+          this._raymarchSettingsRef.ro.y,
+          this._raymarchSettingsRef.ro.z
+        ).add(new THREE.Vector3().copy(roLookAt).multiplyScalar(-0.8));
+
+        this._cameraModel3DRef.position.set(cameraPos.x, cameraPos.y, -cameraPos.z);
+
+        this._cameraModel3DRef.lookAt(
+          this._raymarchSettingsRef.lookAt.x,
+          this._raymarchSettingsRef.lookAt.y,
+          -this._raymarchSettingsRef.lookAt.z
+        );
+      }
     }
+  }
+
+  setCameraModelRef(model: THREE.Group) {
+    this._cameraModel3DRef = model;
   }
 
   destroy() {

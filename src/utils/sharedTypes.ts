@@ -1,3 +1,5 @@
+import { GLTF } from 'three-stdlib';
+
 export interface DomRectSSR {
   bottom: number;
   height: number;
@@ -16,7 +18,7 @@ export interface UpdateInfo {
 }
 
 export interface MediaItem {
-  item: THREE.Texture | THREE.Group;
+  item: THREE.Texture | GLTF;
   naturalWidth: number;
   naturalHeight: number;
 }
