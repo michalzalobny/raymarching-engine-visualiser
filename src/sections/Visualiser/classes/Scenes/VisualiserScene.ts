@@ -36,9 +36,9 @@ export class VisualiserScene extends InteractiveScene {
   _rayLight = new RayLight3D();
   _raymarchSettings: RaymarchSettings = {
     ro: new THREE.Vector3(2, 4, -9.0),
-    lookAt: new THREE.Vector3(0.0, 0.0, 0.0),
+    lookAt: new THREE.Vector3(0.0, 1.0, 0.0),
     zoom: 1.0,
-    lightPos: new THREE.Vector3(-3, 6.5, -5.5),
+    lightPos: new THREE.Vector3(-4, 8.5, -3.5),
     lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(0.0, 3.2, 3.0),
     sphere2: new THREE.Vector3(2.0, 2.4, 3.0),
