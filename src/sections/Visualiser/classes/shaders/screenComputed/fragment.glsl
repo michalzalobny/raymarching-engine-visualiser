@@ -4,6 +4,7 @@ uniform vec3 uRo;
 uniform vec3 uLookAt;
 uniform vec3 uLightPos;
 uniform vec3 uSphere;
+uniform vec3 uSphere2;
 uniform vec3 uBox;
 uniform vec3 uTorus;
 uniform float uZoom;
@@ -51,10 +52,12 @@ float GetDist(vec3 p) {
 
     //Boolean substraction
     float sphereDist = length(p - uSphere) - 1.0; //1.0 is default radius
+    float sphereDist2 = length(p - uSphere2) - 1.0;
     float boxDist = dBox(p - uBox, vec3(1.0));
     float torusDist = dTorus(p - uTorus, vec2(1.5, 0.5));
     float d = smin(sphereDist, boxDist , uRaySmooth);
     d = smin(d , torusDist, uRaySmooth); 
+    d = smin(d , sphereDist2, uRaySmooth);
     d = min(planeDist, d);
     return d;
 }

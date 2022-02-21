@@ -30,6 +30,7 @@ export class VisualiserScene extends InteractiveScene {
   _screenFrame3D = new ScreenFrame3D();
   _screenComputed3D = new ScreenComputed3D();
   _raySphere3D = new RaySphere3D();
+  _raySphere3D2 = new RaySphere3D();
   _rayBox3D = new RayBox3D();
   _rayTorus3D = new RayTorus3D();
   _rayLight = new RayLight3D();
@@ -40,6 +41,7 @@ export class VisualiserScene extends InteractiveScene {
     lightPos: new THREE.Vector3(6.0, 7.5, -2.0),
     lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(1.0, 3.4, 4.0),
+    sphere2: new THREE.Vector3(3.0, 3.4, 4.0),
     box: new THREE.Vector3(1.0, 1.0, 4.0),
     torus: new THREE.Vector3(0.0, 0.5, 0.0),
     raySmooth: 0.0,
@@ -67,6 +69,7 @@ export class VisualiserScene extends InteractiveScene {
     this.add(this._screenFrame3D);
     this.add(this._screenComputed3D);
     this.add(this._raySphere3D);
+    this.add(this._raySphere3D2);
     this.add(this._rayBox3D);
     this.add(this._rayTorus3D);
     this.add(this._rayLight);
@@ -120,6 +123,11 @@ export class VisualiserScene extends InteractiveScene {
     spherePosition.add(this._raymarchSettings.sphere, 'x', -10, 10).name('X');
     spherePosition.add(this._raymarchSettings.sphere, 'y', -10, 10).name('Y');
     spherePosition.add(this._raymarchSettings.sphere, 'z', -10, 10).name('Z');
+
+    const sphere2Position = objects3D.addFolder('Sphere 2 position');
+    sphere2Position.add(this._raymarchSettings.sphere2, 'x', -10, 10).name('X');
+    sphere2Position.add(this._raymarchSettings.sphere2, 'y', -10, 10).name('Y');
+    sphere2Position.add(this._raymarchSettings.sphere2, 'z', -10, 10).name('Z');
 
     const boxPosition = objects3D.addFolder('Box position');
     boxPosition.add(this._raymarchSettings.box, 'x', -10, 10).name('X');
@@ -205,6 +213,7 @@ export class VisualiserScene extends InteractiveScene {
     this._screenFrame3D.update(updateInfo);
     this._screenComputed3D.update(updateInfo);
     this._raySphere3D.update(updateInfo);
+    this._raySphere3D2.update(updateInfo);
     this._rayBox3D.update(updateInfo);
     this._rayTorus3D.update(updateInfo);
     this._rayLight.update(updateInfo);
@@ -216,6 +225,7 @@ export class VisualiserScene extends InteractiveScene {
     this._rayLight.setLightColor(this._raymarchSettings.lightColor);
 
     this._raySphere3D.setElPosition(this._raymarchSettings.sphere);
+    this._raySphere3D2.setElPosition(this._raymarchSettings.sphere2);
     this._rayBox3D.setElPosition(this._raymarchSettings.box);
     this._rayTorus3D.setElPosition(this._raymarchSettings.torus);
 
@@ -253,6 +263,9 @@ export class VisualiserScene extends InteractiveScene {
 
     this._raySphere3D.destroy();
     this.remove(this._raySphere3D);
+
+    this._raySphere3D2.destroy();
+    this.remove(this._raySphere3D2);
 
     this._rayBox3D.destroy();
     this.remove(this._rayBox3D);

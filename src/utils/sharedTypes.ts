@@ -59,6 +59,7 @@ export interface RaymarchSettings {
   lightColor: [number, number, number];
   zoom: number;
   sphere: THREE.Vector3;
+  sphere2: THREE.Vector3;
   box: THREE.Vector3;
   torus: THREE.Vector3;
   raySmooth: number;
