@@ -35,16 +35,16 @@ export class VisualiserScene extends InteractiveScene {
   _rayTorus3D = new RayTorus3D();
   _rayLight = new RayLight3D();
   _raymarchSettings: RaymarchSettings = {
-    ro: new THREE.Vector3(0, 4, -9.0),
+    ro: new THREE.Vector3(2, 4, -9.0),
     lookAt: new THREE.Vector3(0.0, 0.0, 0.0),
     zoom: 1.0,
-    lightPos: new THREE.Vector3(-2, 9, -5.0),
+    lightPos: new THREE.Vector3(-3, 6.5, -5.5),
     lightColor: [0.549, 0.725, 0.89],
-    sphere: new THREE.Vector3(1.0, 3.4, 4.0),
-    sphere2: new THREE.Vector3(3.0, 2.4, 4.0),
+    sphere: new THREE.Vector3(0.0, 3.2, 3.0),
+    sphere2: new THREE.Vector3(2.0, 2.4, 3.0),
     animateSpheres: false,
     box: new THREE.Vector3(4.0, 1.0, -2.0),
-    torus: new THREE.Vector3(-3.0, 0.5, 1.0),
+    torus: new THREE.Vector3(-3.5, 0.5, -1.5),
     raySmooth: 0.0,
     isCameraFocused: false,
   };
