@@ -38,12 +38,12 @@ export class VisualiserScene extends InteractiveScene {
     ro: new THREE.Vector3(0, 4, -9.0),
     lookAt: new THREE.Vector3(0.0, 0.0, 0.0),
     zoom: 1.0,
-    lightPos: new THREE.Vector3(6.0, 7.5, -2.0),
+    lightPos: new THREE.Vector3(-2, 9, -5.0),
     lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(1.0, 3.4, 4.0),
     sphere2: new THREE.Vector3(3.0, 3.4, 4.0),
-    box: new THREE.Vector3(1.0, 1.0, 4.0),
-    torus: new THREE.Vector3(0.0, 0.5, 0.0),
+    box: new THREE.Vector3(4.0, 1.0, -2.0),
+    torus: new THREE.Vector3(-3.0, 0.5, 1.0),
     raySmooth: 0.0,
     isCameraFocused: false,
   };
@@ -111,9 +111,9 @@ export class VisualiserScene extends InteractiveScene {
     light.close();
     light.addColor(this._raymarchSettings, 'lightColor', 1).name('Color');
     const lightPosition = light.addFolder('Light position');
-    lightPosition.add(this._raymarchSettings.lightPos, 'x', -10, 10).name('X');
-    lightPosition.add(this._raymarchSettings.lightPos, 'y', -10, 10).name('Y');
-    lightPosition.add(this._raymarchSettings.lightPos, 'z', -10, 10).name('Z');
+    lightPosition.add(this._raymarchSettings.lightPos, 'x', -15, 15).name('X');
+    lightPosition.add(this._raymarchSettings.lightPos, 'y', 1, 15).name('Y');
+    lightPosition.add(this._raymarchSettings.lightPos, 'z', -15, 15).name('Z');
 
     //Objects3D
     const objects3D = this._gui.addFolder('3D Objects');
