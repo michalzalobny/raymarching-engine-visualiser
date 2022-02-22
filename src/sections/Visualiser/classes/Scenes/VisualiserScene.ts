@@ -232,8 +232,8 @@ export class VisualiserScene extends InteractiveScene {
     this._light3D.update(updateInfo);
 
     if (this._raymarchSettings.animateSpheres) {
-      const onOff = Math.sin(updateInfo.time * 0.002);
-      const onOff2 = Math.cos(updateInfo.time * 0.002);
+      const onOff = Math.sin(updateInfo.time * 0.002) * updateInfo.slowDownFactor;
+      const onOff2 = Math.cos(updateInfo.time * 0.002) * updateInfo.slowDownFactor;
 
       this._raymarchSettings.sphere.x += onOff * 0.03;
       this._raymarchSettings.sphere.y += onOff * 0.03;
