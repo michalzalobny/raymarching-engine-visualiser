@@ -59,7 +59,7 @@ export class ScreenFrame3D extends InteractiveObject3D {
       depthWrite: false,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      thickness: 1.4,
+      thickness: 0.1,
     });
 
     this._mesh = new THREE.Mesh(this._geometry, this._material);
