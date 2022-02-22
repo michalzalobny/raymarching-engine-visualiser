@@ -14,6 +14,7 @@ import { sharedValues } from 'utils/sharedValues';
 import { Preloader } from './utility/Preloader';
 import { VisualiserScene } from './Scenes/VisualiserScene';
 import cameraSrc from './assets/camera.glb';
+import matcap1Src from './assets/matcap1.png';
 
 interface Constructor {
   rendererEl: HTMLDivElement;
@@ -74,7 +75,10 @@ export class App extends THREE.EventDispatcher {
     this._addListeners();
     this._resumeAppFrame();
 
-    this._preloader.setPreloadItems([{ src: cameraSrc, type: '3dmodel' }]);
+    this._preloader.setPreloadItems([
+      { src: cameraSrc, type: '3dmodel' },
+      { src: matcap1Src.src, type: 'image' },
+    ]);
   }
 
   _preloadFonts() {
@@ -118,7 +122,10 @@ export class App extends THREE.EventDispatcher {
   _onAssetsLoaded = () => {
     this._setAssetsLoadedReact(true);
     this._visualiserScene.animateIn();
-    this._visualiserScene.setCameraModel(this._preloader.mediaItems[cameraSrc].item as GLTF);
+    this._visualiserScene.setCameraModel(
+      this._preloader.mediaItems[cameraSrc].item as GLTF,
+      this._preloader.mediaItems[matcap1Src.src].item as THREE.Texture
+    );
   };
 
   _addListeners() {

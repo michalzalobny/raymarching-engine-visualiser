@@ -61,7 +61,7 @@ export class VisualiserScene extends InteractiveScene {
   };
   _cameraModel3D: THREE.Group | null = null;
   _cameraPivotGroup = new THREE.Group();
-  _cameraModelMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  _cameraModelMaterial = new THREE.MeshMatcapMaterial();
 
   constructor({ gui, controls, camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
@@ -273,7 +273,8 @@ export class VisualiserScene extends InteractiveScene {
     );
   }
 
-  setCameraModel(gltf: GLTF) {
+  setCameraModel(gltf: GLTF, texture: THREE.Texture) {
+    this._cameraModelMaterial.matcap = texture;
     gltf.scene.traverse(child => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
