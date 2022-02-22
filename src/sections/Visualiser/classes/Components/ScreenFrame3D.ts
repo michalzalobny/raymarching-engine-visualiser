@@ -12,6 +12,8 @@ import { UpdateInfo, RaymarchSettings } from 'utils/sharedTypes';
 
 import { InteractiveObject3D } from './InteractiveObject3D';
 import { VisualiserScene } from '../Scenes/VisualiserScene';
+import vertexShader from '../shaders/imagePlane/vertex.glsl';
+import fragmentShader from '../shaders/imagePlane/fragment.glsl';
 
 export class ScreenFrame3D extends InteractiveObject3D {
   static width = 1;
@@ -45,6 +47,25 @@ export class ScreenFrame3D extends InteractiveObject3D {
 
   _drawScreenFrame() {
     this._geometry = new THREE.PlaneBufferGeometry(ScreenFrame3D.width, ScreenFrame3D.width);
+    // this._material = new THREE.ShaderMaterial({
+    //   side: THREE.DoubleSide,
+    //   vertexShader,
+    //   fragmentShader,
+    //   depthWrite: true,
+    //   depthTest: true,
+    //   transparent: true,
+    //   uniforms: {
+    //     uTime: { value: 0 },
+    //     uHighlightColor: {
+    //       value: new THREE.Vector3(
+    //         VisualiserScene.highlightColor[0],
+    //         VisualiserScene.highlightColor[1],
+    //         VisualiserScene.highlightColor[2]
+    //       ),
+    //     },
+    //   },
+    // });
+
     this._material = new THREE.MeshPhysicalMaterial({
       side: THREE.DoubleSide,
       color: new THREE.Color().setRGB(
@@ -55,13 +76,20 @@ export class ScreenFrame3D extends InteractiveObject3D {
       metalness: 0,
       roughness: 0,
       transmission: 1,
+      transparent: true,
+      depthTest: true,
+      depthWrite: true,
     });
+
     this._mesh = new THREE.Mesh(this._geometry, this._material);
+
+    this._mesh.renderOrder = -10;
     this._pivotGroup.add(this._mesh);
   }
 
   update(updateInfo: UpdateInfo) {
     super.update(updateInfo);
+    // if (this._mesh) this._mesh.material.uniforms.uTime.value = updateInfo.time * 0.001;
 
     if (this._mesh && this._raymarchSettingsRef) {
       const roLookAt = new THREE.Vector3()
