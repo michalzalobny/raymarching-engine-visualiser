@@ -14,7 +14,7 @@ import { sharedValues } from 'utils/sharedValues';
 import { Preloader } from './utility/Preloader';
 import { VisualiserScene } from './Scenes/VisualiserScene';
 import cameraSrc from './assets/camera.glb';
-import matcapSrc from './assets/matcap3.png';
+import matcapSrc from './assets/matcap4.png';
 
 interface Constructor {
   rendererEl: HTMLDivElement;

@@ -39,7 +39,8 @@ export class VisualiserScene extends InteractiveScene {
     lookAt: new THREE.Vector3(0.0, 1.0, 0.0),
     zoom: 1.0,
     lightPos: new THREE.Vector3(-4, 8.5, -3.5),
-    lightColor: [0.549, 0.725, 0.89],
+    lightColor: [0.75, 0.75, 0.75],
+    // lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(0.0, 3.2, 3.0),
     sphere2: new THREE.Vector3(2.0, 2.4, 3.0),
     animateSpheres: false,
@@ -52,7 +53,7 @@ export class VisualiserScene extends InteractiveScene {
   _line3D = new Line3D();
   _lookAtLabel3D = new LabeledSphere3D({
     size: 0.1,
-    color: new THREE.Color('#00ff00'),
+    color: new THREE.Color('#A6CA38'),
     labelText: '(Look at)',
   });
   _cameraTween: Tween<{ cameraPosition: THREE.Vector3; cameraLookAt: THREE.Vector3 }> | null = null;

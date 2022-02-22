@@ -46,12 +46,12 @@ export class ScreenFrame3D extends InteractiveObject3D {
     this._geometry = new THREE.PlaneBufferGeometry(ScreenFrame3D.width, ScreenFrame3D.width);
     this._material = new THREE.MeshPhysicalMaterial({
       side: THREE.DoubleSide,
-      color: 0xffffff,
+      color: 0xa6ca38,
       metalness: 0,
       roughness: 0,
       transmission: 1,
       opacity: 1,
-      ior: 1.5,
+      ior: 1,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       thickness: 0.3,

@@ -16,7 +16,7 @@ export class Line3D extends InteractiveObject3D {
 
   _drawLine() {
     this._geometry = new THREE.BufferGeometry().setFromPoints([]);
-    this._material = new THREE.LineBasicMaterial({ color: '#00ff1e' });
+    this._material = new THREE.LineBasicMaterial({ color: '#A6CA38' });
     this._line = new THREE.Line(this._geometry, this._material);
     this.add(this._line);
   }
