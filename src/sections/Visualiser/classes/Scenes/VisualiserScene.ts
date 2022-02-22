@@ -53,7 +53,7 @@ export class VisualiserScene extends InteractiveScene {
   _gui: GUI;
   _line3D = new Line3D();
   _lookAtLabel3D = new LabeledSphere3D({
-    size: 0.1,
+    size: 0.08,
     color: new THREE.Color('#A6CA38'),
     labelText: '(Look at)',
   });
