@@ -34,9 +34,4 @@ export class RayTorus3D extends RayObject3D {
     if (this._mesh) this.remove(this._mesh);
     this._geometry?.dispose();
   }
-
-  setElPosition(newPos: THREE.Vector3) {
-    super.setElPosition(newPos);
-    this._mesh?.position.set(this.elPosition.x, this.elPosition.y, -this.elPosition.z);
-  }
 }

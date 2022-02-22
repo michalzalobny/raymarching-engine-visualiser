@@ -11,7 +11,7 @@ import { Floor3D } from '../Components/Floor3D';
 import { ScreenFrame3D } from '../Components/ScreenFrame3D';
 import { ScreenComputed3D } from '../Components/ScreenComputed3D';
 import { RaySphere3D } from '../Components/RaymarchedComponents/RaySphere3D';
-import { RayLight3D } from '../Components/RaymarchedComponents/RayLight3D';
+import { Light3D } from '../Components/Light3D';
 import { Line3D } from '../Components/Line3D';
 import { LabeledSphere3D } from '../Components/LabeledSphere3D';
 import { RayBox3D } from '../Components/RaymarchedComponents/RayBox3D';
@@ -34,12 +34,12 @@ export class VisualiserScene extends InteractiveScene {
   _raySphere3D2 = new RaySphere3D();
   _rayBox3D = new RayBox3D();
   _rayTorus3D = new RayTorus3D();
-  _rayLight = new RayLight3D();
+  _light3D = new Light3D();
   _raymarchSettings: RaymarchSettings = {
     ro: new THREE.Vector3(2, 4, -9.0),
     lookAt: new THREE.Vector3(0.0, 1.0, 0.0),
     zoom: 1.0,
-    lightPos: new THREE.Vector3(-4, 8.5, -3.5),
+    lightPos: new THREE.Vector3(-3, 4, -3),
     lightColor: [0.75, 0.75, 0.75],
     // lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(0.0, 3.2, 3.0),
@@ -77,7 +77,7 @@ export class VisualiserScene extends InteractiveScene {
     this.add(this._raySphere3D2);
     this.add(this._rayBox3D);
     this.add(this._rayTorus3D);
-    this.add(this._rayLight);
+    this.add(this._light3D);
     this.add(this._line3D);
     this.add(this._lookAtLabel3D);
 
@@ -221,15 +221,9 @@ export class VisualiserScene extends InteractiveScene {
 
   update(updateInfo: UpdateInfo) {
     super.update(updateInfo);
-
-    this._floor3D.update(updateInfo);
     this._screenFrame3D.update(updateInfo);
     this._screenComputed3D.update(updateInfo);
-    this._raySphere3D.update(updateInfo);
-    this._raySphere3D2.update(updateInfo);
-    this._rayBox3D.update(updateInfo);
-    this._rayTorus3D.update(updateInfo);
-    this._rayLight.update(updateInfo);
+    this._light3D.update(updateInfo);
 
     if (this._raymarchSettings.animateSpheres) {
       const onOff = Math.sin(updateInfo.time * 0.002);
@@ -244,13 +238,35 @@ export class VisualiserScene extends InteractiveScene {
       this._raymarchSettings.sphere2.z -= onOff * 0.01;
     }
 
-    this._rayLight.setElPosition(this._raymarchSettings.lightPos);
-    this._rayLight.setLightColor(this._raymarchSettings.lightColor);
+    this._light3D.setLightColor(this._raymarchSettings.lightColor);
 
-    this._raySphere3D.setElPosition(this._raymarchSettings.sphere);
-    this._raySphere3D2.setElPosition(this._raymarchSettings.sphere2);
-    this._rayBox3D.setElPosition(this._raymarchSettings.box);
-    this._rayTorus3D.setElPosition(this._raymarchSettings.torus);
+    this._light3D.position.set(
+      this._raymarchSettings.lightPos.x,
+      this._raymarchSettings.lightPos.y,
+      -this._raymarchSettings.lightPos.z
+    );
+    this._raySphere3D.position.set(
+      this._raymarchSettings.sphere.x,
+      this._raymarchSettings.sphere.y,
+      -this._raymarchSettings.sphere.z
+    );
+
+    this._raySphere3D2.position.set(
+      this._raymarchSettings.sphere2.x,
+      this._raymarchSettings.sphere2.y,
+      -this._raymarchSettings.sphere2.z
+    );
+    this._rayBox3D.position.set(
+      this._raymarchSettings.box.x,
+      this._raymarchSettings.box.y,
+      -this._raymarchSettings.box.z
+    );
+
+    this._rayTorus3D.position.set(
+      this._raymarchSettings.torus.x,
+      this._raymarchSettings.torus.y,
+      -this._raymarchSettings.torus.z
+    );
 
     this._lookAtLabel3D.setElPosition(
       new THREE.Vector3(
@@ -320,8 +336,8 @@ export class VisualiserScene extends InteractiveScene {
     this._rayTorus3D.destroy();
     this.remove(this._rayTorus3D);
 
-    this._rayLight.destroy();
-    this.remove(this._rayLight);
+    this._light3D.destroy();
+    this.remove(this._light3D);
 
     this._line3D.destroy();
     this.remove(this._line3D);
