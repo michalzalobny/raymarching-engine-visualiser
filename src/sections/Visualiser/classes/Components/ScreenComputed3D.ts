@@ -13,6 +13,7 @@ import { UpdateInfo, RaymarchSettings } from 'utils/sharedTypes';
 import vertexShader from '../shaders/screenComputed/vertex.glsl';
 import fragmentShader from '../shaders/screenComputed/fragment.glsl';
 import { InteractiveObject3D } from './InteractiveObject3D';
+import { VisualiserScene } from '../Scenes/VisualiserScene';
 
 export class ScreenComputed3D extends InteractiveObject3D {
   static width = 8;
@@ -59,7 +60,13 @@ export class ScreenComputed3D extends InteractiveObject3D {
         uSphere2: { value: new THREE.Vector3(0.0) },
         uBox: { value: new THREE.Vector3(0.0) },
         uTorus: { value: new THREE.Vector3(0.0) },
-        uLightColor: { value: new THREE.Vector3(1.0) },
+        uHighlightColor: {
+          value: new THREE.Vector3(
+            VisualiserScene.highlightColor[0],
+            VisualiserScene.highlightColor[1],
+            VisualiserScene.highlightColor[2]
+          ),
+        },
         uRaySmooth: { value: 0.0 },
       },
     });
@@ -89,11 +96,6 @@ export class ScreenComputed3D extends InteractiveObject3D {
       this._mesh.material.uniforms.uSphere2.value = this._raymarchSettingsRef.sphere2;
       this._mesh.material.uniforms.uBox.value = this._raymarchSettingsRef.box;
       this._mesh.material.uniforms.uTorus.value = this._raymarchSettingsRef.torus;
-      this._mesh.material.uniforms.uLightColor.value = new THREE.Vector3(
-        this._raymarchSettingsRef.lightColor[0],
-        this._raymarchSettingsRef.lightColor[1],
-        this._raymarchSettingsRef.lightColor[2]
-      );
       this._mesh.material.uniforms.uRaySmooth.value = this._raymarchSettingsRef.raySmooth;
     }
   }

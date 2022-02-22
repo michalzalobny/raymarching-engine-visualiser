@@ -8,7 +8,7 @@ uniform vec3 uSphere2;
 uniform vec3 uBox;
 uniform vec3 uTorus;
 uniform float uZoom;
-uniform vec3 uLightColor;
+uniform vec3 uHighlightColor;
 uniform float uRaySmooth;
 
 varying vec2 vUv;
@@ -121,7 +121,7 @@ void main()
     vec3 p = uRo + rd *d;
     float dif = GetLight(p); //diffused lighting
     // col = mix(vec3(0.839, 0.458, 0.941), vec3(0.976, 0.760, 0.976), dif);
-    col = mix(vec3(0.0, 0.0, 0.0), vec3(0.650, 0.792, 0.219), dif);
+    col = mix(vec3(0.0, 0.0, 0.0), uHighlightColor, dif);
 
     gl_FragColor = vec4(col, 1.0);
 }

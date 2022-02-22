@@ -26,6 +26,8 @@ interface Constructor {
 }
 
 export class VisualiserScene extends InteractiveScene {
+  static highlightColor = [0.65, 0.792, 0.219];
+
   _controls: OrbitControls;
   _floor3D = new Floor3D();
   _screenFrame3D = new ScreenFrame3D();
@@ -40,7 +42,7 @@ export class VisualiserScene extends InteractiveScene {
     lookAt: new THREE.Vector3(0.0, 1.0, 0.0),
     zoom: 1.0,
     lightPos: new THREE.Vector3(-3, 4, -3),
-    lightColor: [0.75, 0.75, 0.75],
+    lightColor: [0.8, 0.8, 0.8],
     // lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(0.0, 3.2, 3.0),
     sphere2: new THREE.Vector3(2.0, 2.4, 3.0),
@@ -54,7 +56,11 @@ export class VisualiserScene extends InteractiveScene {
   _line3D = new Line3D();
   _lookAtLabel3D = new LabeledSphere3D({
     size: 0.08,
-    color: new THREE.Color('#A6CA38'),
+    color: new THREE.Color().setRGB(
+      VisualiserScene.highlightColor[0],
+      VisualiserScene.highlightColor[1],
+      VisualiserScene.highlightColor[2]
+    ),
     labelText: '(Look at)',
   });
   _cameraTween: Tween<{ cameraPosition: THREE.Vector3; cameraLookAt: THREE.Vector3 }> | null = null;

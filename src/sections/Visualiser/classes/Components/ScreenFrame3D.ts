@@ -11,6 +11,7 @@ import { Text } from 'troika-three-text';
 import { UpdateInfo, RaymarchSettings } from 'utils/sharedTypes';
 
 import { InteractiveObject3D } from './InteractiveObject3D';
+import { VisualiserScene } from '../Scenes/VisualiserScene';
 
 export class ScreenFrame3D extends InteractiveObject3D {
   static width = 1;
@@ -46,7 +47,11 @@ export class ScreenFrame3D extends InteractiveObject3D {
     this._geometry = new THREE.PlaneBufferGeometry(ScreenFrame3D.width, ScreenFrame3D.width);
     this._material = new THREE.MeshPhysicalMaterial({
       side: THREE.DoubleSide,
-      color: 0xa6ca38,
+      color: new THREE.Color().setRGB(
+        VisualiserScene.highlightColor[0],
+        VisualiserScene.highlightColor[1],
+        VisualiserScene.highlightColor[2]
+      ),
       metalness: 0,
       roughness: 0,
       transmission: 1,

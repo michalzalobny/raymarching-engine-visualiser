@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { UpdateInfo } from 'utils/sharedTypes';
 
 import { InteractiveObject3D } from './InteractiveObject3D';
+import { VisualiserScene } from '../Scenes/VisualiserScene';
 
 export class Line3D extends InteractiveObject3D {
   _line: THREE.Line | null = null;
@@ -16,7 +17,13 @@ export class Line3D extends InteractiveObject3D {
 
   _drawLine() {
     this._geometry = new THREE.BufferGeometry().setFromPoints([]);
-    this._material = new THREE.LineBasicMaterial({ color: '#A6CA38' });
+    this._material = new THREE.LineBasicMaterial({
+      color: new THREE.Color().setRGB(
+        VisualiserScene.highlightColor[0],
+        VisualiserScene.highlightColor[1],
+        VisualiserScene.highlightColor[2]
+      ),
+    });
     this._line = new THREE.Line(this._geometry, this._material);
     this.add(this._line);
   }
