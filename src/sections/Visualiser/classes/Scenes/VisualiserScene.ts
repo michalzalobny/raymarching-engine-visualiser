@@ -16,6 +16,7 @@ import { Line3D } from '../Components/Line3D';
 import { LabeledSphere3D } from '../Components/LabeledSphere3D';
 import { RayBox3D } from '../Components/RaymarchedComponents/RayBox3D';
 import { RayTorus3D } from '../Components/RaymarchedComponents/RayTorus3D';
+import { Model3D } from '../Components/Model3D';
 
 interface Constructor {
   camera: THREE.PerspectiveCamera;
@@ -60,9 +61,8 @@ export class VisualiserScene extends InteractiveScene {
   _lastCameraSettings = {
     position: new THREE.Vector3(0, 0, 0),
   };
-  _cameraModel3D: THREE.Group | null = null;
+  _cameraModel3D = new Model3D();
   _cameraPivotGroup = new THREE.Group();
-  _cameraModelMaterial = new THREE.MeshMatcapMaterial();
 
   constructor({ gui, controls, camera, mouseMove }: Constructor) {
     super({ camera, mouseMove });
@@ -275,27 +275,29 @@ export class VisualiserScene extends InteractiveScene {
   }
 
   setCameraModel(gltf: GLTF, texture: THREE.Texture) {
-    this._cameraModelMaterial.matcap = texture;
+    const modelMaterial = new THREE.MeshMatcapMaterial();
+    modelMaterial.matcap = texture;
+    this._cameraModel3D.setMaterial(modelMaterial);
+
     gltf.scene.traverse(child => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      child.material = this._cameraModelMaterial;
+      child.material = modelMaterial;
     });
 
     gltf.scene.rotation.y = -Math.PI * 0.5;
     gltf.scene.scale.set(1, 1, 1);
 
     const model = gltf.scene;
-    this._cameraPivotGroup.add(model);
-    this._cameraModel3D = this._cameraPivotGroup;
+    this._cameraModel3D.setModel(model);
+    this._cameraPivotGroup.add(this._cameraModel3D);
     this.add(this._cameraPivotGroup);
-    this._screenFrame3D.setCameraModelRef(this._cameraModel3D);
+    this._screenFrame3D.setCameraModelRef(this._cameraPivotGroup);
   }
 
   destroy() {
     if (this._cameraModel3D) this._cameraPivotGroup.remove(this._cameraModel3D);
     this.remove(this._cameraPivotGroup);
-    this._cameraModelMaterial.dispose();
 
     this._floor3D.destroy();
     this.remove(this._floor3D);
