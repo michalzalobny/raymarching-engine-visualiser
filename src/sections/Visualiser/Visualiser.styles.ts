@@ -39,5 +39,5 @@ export const CanvasWrapper = styled.div`
   width: 100%;
   height: 100%;
   z-index: 1;
-  background: #c4c4c4;
+  background: #9c9c9c;
 `;

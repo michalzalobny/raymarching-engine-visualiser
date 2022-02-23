@@ -41,7 +41,7 @@ export class VisualiserScene extends InteractiveScene {
     ro: new THREE.Vector3(2, 4, -9.0),
     lookAt: new THREE.Vector3(0.0, 1.0, 0.0),
     zoom: 1.15,
-    lightPos: new THREE.Vector3(-3, 4, -3),
+    lightPos: new THREE.Vector3(-3, 5.3, -3),
     lightColor: [0.9, 0.9, 0.9],
     // lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(0.0, 3.2, 3.0),
