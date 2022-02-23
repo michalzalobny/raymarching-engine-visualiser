@@ -10,7 +10,7 @@ export const CopyInfo = () => {
       <S.GithubWrapper>
         <LinkHandler
           isExternal
-          elHref="https://github.com/javusScriptus/raymarching-engine-visualiser/blob/main/src/sections/Visualiser/classes/Scenes/VisualiserScene.ts"
+          elHref="https://github.com/javusScriptus/raymarching-engine-visualiser/tree/main/src/sections/Visualiser/classes"
         >
           <S.GithubLink>GitHub repo</S.GithubLink>
         </LinkHandler>
