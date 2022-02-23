@@ -16,7 +16,7 @@ export const CopyInfo = () => {
         </LinkHandler>
       </S.GithubWrapper>
       <S.AuthorWrapper>
-        Raymarching engine visualiser by
+        Raymarching 3D engine visualiser by
         <LinkHandler isExternal elHref="https://creativeprojects.vercel.app/">
           <S.AuthorLink>Michal Zalobny</S.AuthorLink>
         </LinkHandler>
