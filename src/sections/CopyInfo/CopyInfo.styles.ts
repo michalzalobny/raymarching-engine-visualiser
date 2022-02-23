@@ -10,7 +10,7 @@ export const GithubWrapper = styled.div`
   left: 30px;
 `;
 
-export const AuthorWrapper = styled.div`
+export const AuthorWrapper = styled.h1`
   display: none;
 
   ${media.tablet} {
