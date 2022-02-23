@@ -216,7 +216,7 @@ export class VisualiserScene extends InteractiveScene {
         this._lastCameraSettings.position.y,
         -this._lastCameraSettings.position.z
       ),
-      lookAt: new THREE.Vector3(0, 0, 0),
+      lookAt: new THREE.Vector3(0, 2, 0),
     });
     this._controls.enabled = true;
   }
