@@ -32,7 +32,6 @@ export class App extends THREE.EventDispatcher {
   _rafId: number | null = null;
   _isResumed = true;
   _lastFrameTime: number | null = null;
-  _frameDifference = 0;
   _canvas: HTMLCanvasElement;
   _camera: THREE.PerspectiveCamera;
   _renderer: THREE.WebGLRenderer;
@@ -146,7 +145,6 @@ export class App extends THREE.EventDispatcher {
   }
 
   _resumeAppFrame() {
-    if (this._lastFrameTime) this._frameDifference = window.performance.now() - this._lastFrameTime;
     this._rafId = window.requestAnimationFrame(this._renderOnFrame);
     this._isResumed = true;
   }
@@ -175,7 +173,7 @@ export class App extends THREE.EventDispatcher {
 
     this._mouseMove.update();
     this._scroll.update({ delta, slowDownFactor, time });
-    this._visualiserScene.update({ delta, slowDownFactor, time: time - this._frameDifference });
+    this._visualiserScene.update({ delta, slowDownFactor, time });
     this._controls.update();
 
     this._renderer.render(this._visualiserScene, this._camera);
