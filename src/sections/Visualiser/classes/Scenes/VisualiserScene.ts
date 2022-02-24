@@ -227,7 +227,7 @@ export class VisualiserScene extends InteractiveScene {
     this._controls.target.copy(App.startLookAt);
 
     this.animateCamera({
-      duration: 2600,
+      duration: 2400,
       position: new THREE.Vector3(
         App.defaultCameraPos.x,
         App.defaultCameraPos.y,

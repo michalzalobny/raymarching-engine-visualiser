@@ -11,7 +11,7 @@ interface HeadProps {
 
 export const Head = (props: HeadProps) => {
   const {
-    ogImage = 'https://res.cloudinary.com/dpv0ukspz/image/upload/v1645574520/og_jsowpe.jpg',
+    ogImage = 'https://res.cloudinary.com/dpv0ukspz/image/upload/v1645716544/ogg_ix41vg.jpg',
     title = 'Raymarching engine visualiser',
     description = 'Interactive visualiser 🌠 for a 3D raymarching engine written in GLSL and computed in a fragment shader on the 2D Plane.',
   } = props;
