@@ -6,6 +6,7 @@ import TWEEN, { Tween } from '@tweenjs/tween.js';
 import { MouseMove } from 'utils/singletons/MouseMove';
 import { UpdateInfo, RaymarchSettings, AnimateCamera } from 'utils/sharedTypes';
 
+import { App } from '../App';
 import { InteractiveScene } from './InteractiveScene';
 import { Floor3D } from '../Components/Floor3D';
 import { ScreenFrame3D } from '../Components/ScreenFrame3D';
@@ -38,8 +39,8 @@ export class VisualiserScene extends InteractiveScene {
   _rayTorus3D = new RayTorus3D();
   _light3D = new Light3D();
   _raymarchSettings: RaymarchSettings = {
-    ro: new THREE.Vector3(2, 4, -10.0),
-    lookAt: new THREE.Vector3(0.0, 1.0, 0.0),
+    ro: new THREE.Vector3(4.28, 3.8, -9.32),
+    lookAt: new THREE.Vector3(0.0, 2.2, 0.0),
     zoom: 1.15,
     lightPos: new THREE.Vector3(4.02, 6.75, -3.85),
     lightColor: [0.9, 0.9, 0.9],
@@ -162,7 +163,7 @@ export class VisualiserScene extends InteractiveScene {
     this._gui.add(this._raymarchSettings, 'raySmooth', 0, 1).name('Raymarch smooth');
   }
 
-  animateCamera({ lookAt, position }: AnimateCamera) {
+  animateCamera({ duration = 1200, lookAt, position }: AnimateCamera) {
     if (this._cameraTween) {
       this._cameraTween.stop();
     }
@@ -186,7 +187,7 @@ export class VisualiserScene extends InteractiveScene {
     };
 
     this._cameraTween = new TWEEN.Tween(from)
-      .to(to, 1200)
+      .to(to, duration)
       .easing(TWEEN.Easing.Exponential.InOut)
       .onUpdate(obj => {
         this._controls.target.set(obj.cameraLookAt.x, obj.cameraLookAt.y, -obj.cameraLookAt.z);
@@ -216,13 +217,24 @@ export class VisualiserScene extends InteractiveScene {
         this._lastCameraSettings.position.y,
         -this._lastCameraSettings.position.z
       ),
-      lookAt: new THREE.Vector3(0, 3, 0),
+      lookAt: App.defaultLookAt,
     });
     this._controls.enabled = true;
   }
 
   animateIn() {
-    console.log('animated in');
+    this._camera.position.copy(App.startCameraPos);
+    this._controls.target.copy(App.startLookAt);
+
+    this.animateCamera({
+      duration: 2400,
+      position: new THREE.Vector3(
+        App.defaultCameraPos.x,
+        App.defaultCameraPos.y,
+        -App.defaultCameraPos.z
+      ),
+      lookAt: new THREE.Vector3(App.defaultLookAt.x, App.defaultLookAt.y, -App.defaultLookAt.z),
+    });
   }
 
   update(updateInfo: UpdateInfo) {

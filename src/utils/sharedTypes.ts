@@ -72,4 +72,5 @@ export interface RaymarchSettings {
 export interface AnimateCamera {
   lookAt: THREE.Vector3;
   position: THREE.Vector3;
+  duration?: number;
 }

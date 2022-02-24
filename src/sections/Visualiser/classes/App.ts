@@ -23,6 +23,11 @@ interface Constructor {
 }
 
 export class App extends THREE.EventDispatcher {
+  static startCameraPos = new THREE.Vector3(0.2, 4.3, 14.8);
+  static startLookAt = new THREE.Vector3(0, 3, 0);
+  static defaultCameraPos = new THREE.Vector3(14.5, 6, 11.72);
+  static defaultLookAt = new THREE.Vector3(0, 3.5, 0);
+
   _rendererEl: HTMLDivElement;
   _rafId: number | null = null;
   _isResumed = true;
@@ -100,11 +105,8 @@ export class App extends THREE.EventDispatcher {
     const aspectRatio = rendererBounds.width / rendererBounds.height;
     this._camera.aspect = aspectRatio;
 
-    this._camera.position.z = 15.3;
-    this._camera.position.y = 7;
-    this._camera.position.x = 15.3;
-
-    this._controls.target.y = 3; //camera look at
+    this._camera.position.copy(App.defaultCameraPos);
+    this._controls.target.copy(App.defaultLookAt);
 
     this._renderer.setSize(rendererBounds.width, rendererBounds.height);
     this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
