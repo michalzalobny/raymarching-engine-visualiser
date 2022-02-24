@@ -48,8 +48,8 @@ export class VisualiserScene extends InteractiveScene {
     sphere2: new THREE.Vector3(2.0, 2.4, 3.0),
     animateSpheres: false,
     box: new THREE.Vector3(4.0, 1.0, -2.0),
-    torus: new THREE.Vector3(-3.5, 0.5, -1.5),
-    raySmooth: 0.0,
+    torus: new THREE.Vector3(-3.5, 0.51, -1.5),
+    raySmooth: 0.8,
     isCameraFocused: false,
   };
   _gui: GUI;
