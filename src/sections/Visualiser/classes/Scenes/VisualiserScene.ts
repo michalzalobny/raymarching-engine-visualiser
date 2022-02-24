@@ -38,18 +38,18 @@ export class VisualiserScene extends InteractiveScene {
   _rayTorus3D = new RayTorus3D();
   _light3D = new Light3D();
   _raymarchSettings: RaymarchSettings = {
-    ro: new THREE.Vector3(2, 4, -9.0),
+    ro: new THREE.Vector3(2, 4, -10.0),
     lookAt: new THREE.Vector3(0.0, 1.0, 0.0),
     zoom: 1.15,
-    lightPos: new THREE.Vector3(-3, 5.3, -3),
+    lightPos: new THREE.Vector3(4.02, 6.75, -3.85),
     lightColor: [0.9, 0.9, 0.9],
     // lightColor: [0.549, 0.725, 0.89],
-    sphere: new THREE.Vector3(0.0, 3.2, 3.0),
-    sphere2: new THREE.Vector3(2.0, 2.4, 3.0),
+    sphere: new THREE.Vector3(1.1, 3.2, 1.85),
+    sphere2: new THREE.Vector3(2.4, 2.4, 1.1),
     animateSpheres: false,
-    box: new THREE.Vector3(4.0, 1.0, -2.0),
-    torus: new THREE.Vector3(-3.5, 0.51, -1.5),
-    raySmooth: 0.8,
+    box: new THREE.Vector3(1.3, 1.0, -0.2),
+    torus: new THREE.Vector3(-1.26, 0.51, -1.6),
+    raySmooth: 0.62,
     isCameraFocused: false,
   };
   _gui: GUI;
