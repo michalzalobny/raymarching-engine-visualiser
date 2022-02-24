@@ -44,9 +44,10 @@ export class VisualiserScene extends InteractiveScene {
     zoom: 1.15,
     lightPos: new THREE.Vector3(4.02, 6.75, -3.85),
     lightColor: [0.9, 0.9, 0.9],
-    // lightColor: [0.549, 0.725, 0.89],
     sphere: new THREE.Vector3(0.32, 3.2, 1.36),
-    sphere2: new THREE.Vector3(2.4, 2.4, 1.1),
+    sphere2: new THREE.Vector3(2.44, 2.4, 1.1), //shadows are used to not break actual position of sphere while its being animated
+    sphereShadow: new THREE.Vector3(0.32, 3.2, 1.36),
+    sphere2Shadow: new THREE.Vector3(2.4, 2.4, 1.1),
     animateSpheres: true,
     box: new THREE.Vector3(1.3, 1.0, -0.2),
     torus: new THREE.Vector3(-1.26, 0.51, -1.6),
@@ -245,14 +246,14 @@ export class VisualiserScene extends InteractiveScene {
 
     if (this._raymarchSettings.animateSpheres) {
       const t = updateInfo.time * 0.002 * updateInfo.slowDownFactor;
-      const onOff = Math.sin(t) * 0.01;
-      const onOff2 = Math.cos(t) * 0.01;
+      const onOff = Math.sin(t) * 0.4;
+      const onOff2 = Math.cos(t) * 0.4;
 
-      this._raymarchSettings.sphere.y -= onOff * 0.7;
+      this._raymarchSettings.sphereShadow.y = this._raymarchSettings.sphere.y - onOff * 0.4;
 
-      this._raymarchSettings.sphere2.x += onOff2;
-      this._raymarchSettings.sphere2.y -= onOff2 * 0.6;
-      this._raymarchSettings.sphere2.z += onOff;
+      this._raymarchSettings.sphere2Shadow.x = this._raymarchSettings.sphere2.x + onOff2;
+      this._raymarchSettings.sphere2Shadow.y = this._raymarchSettings.sphere2.y - onOff2 * 0.6;
+      this._raymarchSettings.sphere2Shadow.z = this._raymarchSettings.sphere2.z + onOff;
     }
 
     this._light3D.setLightColor(this._raymarchSettings.lightColor);
@@ -263,15 +264,15 @@ export class VisualiserScene extends InteractiveScene {
       -this._raymarchSettings.lightPos.z
     );
     this._raySphere3D.position.set(
-      this._raymarchSettings.sphere.x,
-      this._raymarchSettings.sphere.y,
-      -this._raymarchSettings.sphere.z
+      this._raymarchSettings.sphereShadow.x,
+      this._raymarchSettings.sphereShadow.y,
+      -this._raymarchSettings.sphereShadow.z
     );
 
     this._raySphere3D2.position.set(
-      this._raymarchSettings.sphere2.x,
-      this._raymarchSettings.sphere2.y,
-      -this._raymarchSettings.sphere2.z
+      this._raymarchSettings.sphere2Shadow.x,
+      this._raymarchSettings.sphere2Shadow.y,
+      -this._raymarchSettings.sphere2Shadow.z
     );
     this._rayBox3D.position.set(
       this._raymarchSettings.box.x,

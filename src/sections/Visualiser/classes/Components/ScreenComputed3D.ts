@@ -92,8 +92,8 @@ export class ScreenComputed3D extends InteractiveObject3D {
       this._mesh.material.uniforms.uLookAt.value = this._raymarchSettingsRef.lookAt;
       this._mesh.material.uniforms.uZoom.value = this._raymarchSettingsRef.zoom;
       this._mesh.material.uniforms.uLightPos.value = this._raymarchSettingsRef.lightPos;
-      this._mesh.material.uniforms.uSphere.value = this._raymarchSettingsRef.sphere;
-      this._mesh.material.uniforms.uSphere2.value = this._raymarchSettingsRef.sphere2;
+      this._mesh.material.uniforms.uSphere.value = this._raymarchSettingsRef.sphereShadow;
+      this._mesh.material.uniforms.uSphere2.value = this._raymarchSettingsRef.sphere2Shadow;
       this._mesh.material.uniforms.uBox.value = this._raymarchSettingsRef.box;
       this._mesh.material.uniforms.uTorus.value = this._raymarchSettingsRef.torus;
       this._mesh.material.uniforms.uRaySmooth.value = this._raymarchSettingsRef.raySmooth;

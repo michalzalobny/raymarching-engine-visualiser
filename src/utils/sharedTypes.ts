@@ -62,6 +62,8 @@ export interface RaymarchSettings {
   zoom: number;
   sphere: THREE.Vector3;
   sphere2: THREE.Vector3;
+  sphereShadow: THREE.Vector3;
+  sphere2Shadow: THREE.Vector3;
   animateSpheres: boolean;
   box: THREE.Vector3;
   torus: THREE.Vector3;
