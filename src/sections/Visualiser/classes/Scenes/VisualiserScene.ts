@@ -45,12 +45,12 @@ export class VisualiserScene extends InteractiveScene {
     lightPos: new THREE.Vector3(4.02, 6.75, -3.85),
     lightColor: [0.9, 0.9, 0.9],
     // lightColor: [0.549, 0.725, 0.89],
-    sphere: new THREE.Vector3(1.1, 3.2, 1.85),
+    sphere: new THREE.Vector3(0.32, 3.2, 1.36),
     sphere2: new THREE.Vector3(2.4, 2.4, 1.1),
     animateSpheres: true,
     box: new THREE.Vector3(1.3, 1.0, -0.2),
     torus: new THREE.Vector3(-1.26, 0.51, -1.6),
-    raySmooth: 0.62,
+    raySmooth: 0.74,
     isCameraFocused: false,
   };
   _gui: GUI;
@@ -227,7 +227,7 @@ export class VisualiserScene extends InteractiveScene {
     this._controls.target.copy(App.startLookAt);
 
     this.animateCamera({
-      duration: 2400,
+      duration: 2600,
       position: new THREE.Vector3(
         App.defaultCameraPos.x,
         App.defaultCameraPos.y,
@@ -244,16 +244,15 @@ export class VisualiserScene extends InteractiveScene {
     this._light3D.update(updateInfo);
 
     if (this._raymarchSettings.animateSpheres) {
-      const onOff = Math.sin(updateInfo.time * 0.002) * updateInfo.slowDownFactor;
-      const onOff2 = Math.cos(updateInfo.time * 0.002) * updateInfo.slowDownFactor;
+      const t = updateInfo.time * 0.002 * updateInfo.slowDownFactor;
+      const onOff = Math.sin(t) * 0.01;
+      const onOff2 = Math.cos(t) * 0.01;
 
-      this._raymarchSettings.sphere.x += onOff * 0.03;
-      this._raymarchSettings.sphere.y += onOff * 0.03;
-      this._raymarchSettings.sphere.z += onOff2 * 0.01;
+      this._raymarchSettings.sphere.y -= onOff * 0.7;
 
-      this._raymarchSettings.sphere2.x -= onOff2 * 0.04;
-      this._raymarchSettings.sphere2.y += onOff2 * 0.02;
-      this._raymarchSettings.sphere2.z -= onOff * 0.01;
+      this._raymarchSettings.sphere2.x += onOff2;
+      this._raymarchSettings.sphere2.y -= onOff2 * 0.6;
+      this._raymarchSettings.sphere2.z += onOff;
     }
 
     this._light3D.setLightColor(this._raymarchSettings.lightColor);
